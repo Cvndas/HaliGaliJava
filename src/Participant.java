@@ -46,6 +46,14 @@ public class Participant {
 
 
 
+    public boolean HasACard() {
+        return !_deque.isEmpty();
+    }
+
+
+
+
+
     public void PutCardOnTable() {
         HaliCard card = RemoveCardFromTop();
         if (card == null) {

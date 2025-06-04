@@ -12,11 +12,8 @@ public class Main {
     private static ArrayList<Participant> _aliveParticipants;
     private static Participant _player;
     private static HaliDeck _deck;
-
     private static Scanner _inputScanner;
-
     private static int _playerCount;
-
     public static final int CARDS_IN_DECK = 56;
 
 
@@ -126,11 +123,25 @@ public class Main {
             PrintCurrentTableCards();
             RoundPartTwo();
 
+            // TODO: Kicking out dead participants should only happen upon a bell smack.
+            // This is to ensure that dead players don't have any cards laying around on the table.
+            // Draw a diagram to figure out how this should interact with currentPlayerTurn
+            // As it stands, this is wrong and bugged.
+            KickOutDeadParticipants();
+
             currentPlayerTurn += 1;
             if (currentPlayerTurn > (_playerCount - 1)) {
                 currentPlayerTurn = 0;
             }
         }
+    }
+
+
+
+
+
+    private static void KickOutDeadParticipants() {
+        _aliveParticipants.removeIf(p -> !p.HasACard());
     }
 
 
@@ -218,27 +229,30 @@ public class Main {
 
     /// Seeing who will smack the bell first
     private static void RoundPartTwo() {
-        boolean exactlyFiveOfFruitArePresent = false;
+        boolean exactlyFiveOfFruitArePresent = AreFiveFruitsPresent();
 
 
-        if (exactlyFiveOfFruitArePresent) {
+        if (AreFiveFruitsPresent()) {
             // ::: Bell is valid. Waiting until one of the participants smacks the bell.
+            out.println("5 fruits were present, but handling that is currently unimplemented");
 
         } else {
             // ::: Bell is invalid. Waiting for 2 seconds to see if anyone smacks the bell regardless.
             boolean cpuSmacksBell = new Random().nextInt(0, 10) == 0; // 10% chance that a cpu smacks bell.
             if (cpuSmacksBell) {
+                // ::: Retroactively deciding which CPU smacked the bell :)
                 int bellSmackerIndex = new Random().nextInt(0, _playerCount - 1);
                 out.println("Cpu " + (bellSmackerIndex + 1) + " messed up!");
                 HandleWrongBellSmack(_cpuPlayers.get(bellSmackerIndex));
             }
-
         }
-
     }
 
-    private static void HandleWrongBellSmack(Participant victim)
-    {
+
+
+
+
+    private static void HandleWrongBellSmack(Participant victim) {
         for (Participant nonVictim : _aliveParticipants) {
             if (nonVictim != victim) {
                 HaliCard takenCard = victim.RemoveCardFromTop();
@@ -252,4 +266,47 @@ public class Main {
     }
 
 
+
+
+
+    public static boolean AreFiveFruitsPresent() {
+        // ::: Idea: Go over all alive players, and read their fruits. Check for matches of 5.
+        // Since there is such a limited amount of fruits, I hardcode it here. A more dynamic approach with
+        // a hashtable would be suited if there was a significantly greater variety of card types.
+        int bananaCount = 0;
+        int strawberryCount = 0;
+        int plumeCount = 0;
+        int limeCount = 0;
+
+        for (Participant aliveParticipant : _aliveParticipants) {
+            HaliCard tableCard = null;
+            if (!aliveParticipant.CardsInFrontOfParticipant.isEmpty()) {
+                tableCard = aliveParticipant.CardsInFrontOfParticipant.peek();
+            }
+            if (tableCard == null) {
+                continue;
+            }
+
+            switch (tableCard.fruitType) {
+                case FruitType.Banana:
+                    bananaCount += tableCard.count;
+                    break;
+                case FruitType.Lime:
+                    limeCount += tableCard.count;
+                    break;
+                case FruitType.Strawberry:
+                    strawberryCount += tableCard.count;
+                    break;
+                case FruitType.Plum:
+                    plumeCount += tableCard.count;
+                    break;
+            }
+        }
+        return (
+                bananaCount == 5 ||
+                        strawberryCount == 5 ||
+                        plumeCount == 5 ||
+                        limeCount == 5
+        );
+    }
 }
