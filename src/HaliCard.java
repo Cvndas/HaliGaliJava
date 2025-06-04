@@ -1,7 +1,8 @@
 public class HaliCard {
 
-    public HaliCard(FruitType fruitType) {
+    public HaliCard(FruitType fruitType, CountType countType) {
         this.fruitType = fruitType;
+        this.countType = countType;
     }
 
 
@@ -9,5 +10,6 @@ public class HaliCard {
 
 
     FruitType fruitType;
+    CountType countType;
 }
 
