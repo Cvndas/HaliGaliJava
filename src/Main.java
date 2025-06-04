@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 import static java.lang.System.out;
 
@@ -8,6 +9,7 @@ import static java.lang.System.out;
 public class Main {
 
     private static ArrayList<Participant> _cpuPlayers;
+    private static Participant _player;
     private static HaliDeck _deck;
 
 
@@ -41,8 +43,8 @@ public class Main {
         out.println("Starting a " + playerCount + " player game!");
 
         // ::: Initializing the participants. The player is participant 0.
-        Participant player = new Participant();
-        GiveParticipantInitialCards(player, playerCount);
+        _player = new Participant();
+        GiveParticipantInitialCards(_player, playerCount);
 
         _cpuPlayers = new ArrayList<Participant>(playerCount - 1);
 
@@ -53,6 +55,9 @@ public class Main {
             _cpuPlayers.add(cpuParticipant);
         }
 
+
+        // ::: Initialization is done.
+        PlayGame(playerCount);
     }
 
 
@@ -62,13 +67,61 @@ public class Main {
     private static void GiveParticipantInitialCards(Participant participant, int participantCount) {
         int cardsToGiveToParticipant = CARDS_IN_DECK / participantCount;
         assert (cardsToGiveToParticipant * participantCount <= CARDS_IN_DECK);
-        for (int i = 0; i <cardsToGiveToParticipant; i++) {
+        for (int i = 0; i < cardsToGiveToParticipant; i++) {
             HaliCard cardFromDeck = _deck.TakeCardFromDeck();
 
             // In initial state, there must be enough cards for everyone.
             assert (cardFromDeck != null);
             participant.AddCardToBottom(cardFromDeck);
         }
+
+    }
+
+
+
+
+
+    private static void PlayGame(int participantCount) {
+        boolean gameIsDone = false;
+
+        // ::: Player is always 0
+        // ::: Whoever starts first is random
+        int currentPlayerTurn = new Random().nextInt(participantCount);
+
+        while (!gameIsDone) {
+
+            // ::: The idea
+            /*
+            Each round consists of two parts:
+                1. Waiting for the current player to place a card
+
+                2. If there is a combination for 5 fruits of the same type, wait until someone presses spacebar.
+                   If there is no combination for 5 fruits of the same type, wait for 2 seconds, then go to the next round.
+             */
+
+            RoundPartOne(currentPlayerTurn);
+            RoundPartTwo();
+        }
+    }
+
+    /// Placing a card
+    private static void RoundPartOne(int currentPlayerTurn)
+    {
+        // ::: Player Turn
+        if (currentPlayerTurn == 0) {
+
+        }
+
+        // ::: CPU Turn
+        else {
+
+        }
+    }
+
+
+    /// Seeing who will smack the bell first
+    private static void RoundPartTwo()
+    {
 
     }
 
