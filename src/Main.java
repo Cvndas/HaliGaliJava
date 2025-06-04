@@ -9,9 +9,13 @@ import static java.lang.System.out;
 public class Main {
 
     private static ArrayList<Participant> _cpuPlayers;
+    private static ArrayList<Participant> _aliveParticipants;
     private static Participant _player;
     private static HaliDeck _deck;
 
+    private static Scanner _inputScanner;
+
+    private static int _playerCount;
 
     public static final int CARDS_IN_DECK = 56;
 
@@ -20,44 +24,60 @@ public class Main {
 
 
     public static void main(String[] args) {
+        _inputScanner = new Scanner(System.in);
+
+        InitializeGame();
+
+
+        // ::: Initialization is done.
+        PlayGame();
+    }
+
+
+
+
+
+    private static void InitializeGame() {
         _deck = new HaliDeck();
+        _aliveParticipants = new ArrayList<>();
 
         System.out.println("Choose a player count. Options: 2, 3, 4 ");
-        Scanner scanner = new Scanner(System.in);
 
-        boolean validPlayerCount = false;
-        int playerCount = -1;
+        boolean playerCountIsValid = false;
+        _playerCount = -1;
 
-        while (!validPlayerCount) {
-            playerCount = scanner.nextInt();
-            validPlayerCount =
-                    (playerCount == 2) ||
-                            (playerCount == 3) ||
-                            (playerCount == 4);
-            if (!validPlayerCount) {
+        while (!playerCountIsValid) {
+            _playerCount = _inputScanner.nextInt();
+            if (_inputScanner.hasNextLine()) {
+                _inputScanner.nextLine();
+            }
+            playerCountIsValid =
+                    (_playerCount == 2) ||
+                            (_playerCount == 3) ||
+                            (_playerCount == 4);
+            if (!playerCountIsValid) {
                 out.println("Invalid player count. Options: 2, 3, 4");
             }
 
         }
 
-        out.println("Starting a " + playerCount + " player game!");
+        out.println("Starting a " + _playerCount + " player game!");
 
         // ::: Initializing the participants. The player is participant 0.
         _player = new Participant();
-        GiveParticipantInitialCards(_player, playerCount);
+        _aliveParticipants.add(_player);
+        GiveParticipantInitialCards(_player, _playerCount);
 
-        _cpuPlayers = new ArrayList<Participant>(playerCount - 1);
+        _cpuPlayers = new ArrayList<Participant>(_playerCount - 1);
 
 
-        for (int i = 1; i < playerCount; i++) {
+        for (int i = 1; i < _playerCount; i++) {
             Participant cpuParticipant = new Participant();
-            GiveParticipantInitialCards(cpuParticipant, playerCount);
+            GiveParticipantInitialCards(cpuParticipant, _playerCount);
             _cpuPlayers.add(cpuParticipant);
+            _aliveParticipants.add(cpuParticipant);
         }
 
-
-        // ::: Initialization is done.
-        PlayGame(playerCount);
     }
 
 
@@ -81,12 +101,15 @@ public class Main {
 
 
 
-    private static void PlayGame(int participantCount) {
+    private static void PlayGame() {
         boolean gameIsDone = false;
 
         // ::: Player is always 0
         // ::: Whoever starts first is random
-        int currentPlayerTurn = new Random().nextInt(participantCount);
+        int currentPlayerTurn = new Random().nextInt(_playerCount);
+
+        // TODO: Refresh the terminal, then display UI elements on the top of the screen that show the controls, every
+        // round.
 
         while (!gameIsDone) {
 
@@ -100,29 +123,132 @@ public class Main {
              */
 
             RoundPartOne(currentPlayerTurn);
+            PrintCurrentTableCards();
             RoundPartTwo();
+
+            currentPlayerTurn += 1;
+            if (currentPlayerTurn > (_playerCount - 1)) {
+                currentPlayerTurn = 0;
+            }
         }
     }
 
+
+
+
+
     /// Placing a card
-    private static void RoundPartOne(int currentPlayerTurn)
-    {
+    private static void RoundPartOne(int currentPlayerTurn) {
         // ::: Player Turn
         if (currentPlayerTurn == 0) {
+            // ::: Wait for player to press enter, then place card.
+            System.out.println("Player Turn! (Press enter to place a card.");
+            _inputScanner.nextLine();
+            _player.PutCardOnTable();
+            // TODO: Skip turn if you have no cards.
+
+            System.out.println("Player put " + _player.CardsInFrontOfParticipant.peek().fruitType +
+                    " " + _player.CardsInFrontOfParticipant.peek().countType +
+                    " on the table.");
 
         }
 
         // ::: CPU Turn
         else {
+            System.out.println("CPU " + (currentPlayerTurn + 1) + "'s turn!");
+            SleepHack(500);
+
+            Participant activeCpu = _cpuPlayers.get(currentPlayerTurn - 1);
+            activeCpu.PutCardOnTable();
+            HaliCard cpuNewCard = activeCpu.CardsInFrontOfParticipant.peek();
+            out.println("Player put " + cpuNewCard.fruitType + " " + cpuNewCard.countType + " on the table.");
+
 
         }
     }
 
 
-    /// Seeing who will smack the bell first
-    private static void RoundPartTwo()
-    {
 
+
+
+    private static void PrintCurrentTableCards() {
+        out.println("\n---\nThe Cards on the Table: ");
+
+
+        // ::: Reading the card data from the player and CPUs.
+        HaliCard pCard = null;
+        if (!_player.CardsInFrontOfParticipant.isEmpty()) {
+            pCard = _player.CardsInFrontOfParticipant.peek();
+        }
+
+        if (pCard != null) {
+            out.println("Player: " + pCard.fruitType + " " + pCard.countType);
+        }
+
+        for (int i = 0; i < _playerCount - 1; i++) {
+            HaliCard cCard = null;
+            if (!_cpuPlayers.get(i).CardsInFrontOfParticipant.isEmpty()) {
+                cCard = _cpuPlayers.get(i).CardsInFrontOfParticipant.peek();
+            }
+            if (cCard != null) {
+                out.println("CPU " + (i + 1) + ": " + cCard.fruitType + " " + cCard.countType);
+            }
+        }
+
+        out.println("");
+    }
+
+
+
+
+
+    private static void SleepHack(int msSleepTime) {
+        try { // Arbitrary delay before CPU places his card
+            Thread.sleep(msSleepTime);
+
+        } catch (Exception e) {
+            out.println("This code has no business being triggered. The game is broken");
+        }
+
+    }
+
+
+
+
+
+    /// Seeing who will smack the bell first
+    private static void RoundPartTwo() {
+        boolean exactlyFiveOfFruitArePresent = false;
+
+
+        if (exactlyFiveOfFruitArePresent) {
+            // ::: Bell is valid. Waiting until one of the participants smacks the bell.
+
+        } else {
+            // ::: Bell is invalid. Waiting for 2 seconds to see if anyone smacks the bell regardless.
+            boolean cpuSmacksBell = new Random().nextInt(0, 10) == 0; // 10% chance that a cpu smacks bell.
+            if (cpuSmacksBell) {
+                int bellSmackerIndex = new Random().nextInt(0, _playerCount - 1);
+                out.println("Cpu " + (bellSmackerIndex + 1) + " messed up!");
+                HandleWrongBellSmack(_cpuPlayers.get(bellSmackerIndex));
+            }
+
+        }
+
+    }
+
+    private static void HandleWrongBellSmack(Participant victim)
+    {
+        for (Participant nonVictim : _aliveParticipants) {
+            if (nonVictim != victim) {
+                HaliCard takenCard = victim.RemoveCardFromTop();
+                if (takenCard == null) {
+                    break;
+                }
+                nonVictim.AddCardToBottom(takenCard);
+                out.println("A card was given to another player.");
+            }
+        }
     }
 
 
