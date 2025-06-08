@@ -295,16 +295,16 @@ public class Main {
 			}
 
 			switch (tableCard.fruitType) {
-				case FruitType.Banana:
+				case Banana:
 					bananaCount += tableCard.count;
 					break;
-				case FruitType.Lime:
+				case Lime:
 					limeCount += tableCard.count;
 					break;
-				case FruitType.Strawberry:
+				case Strawberry:
 					strawberryCount += tableCard.count;
 					break;
-				case FruitType.Plum:
+				case Plum:
 					plumeCount += tableCard.count;
 					break;
 			}

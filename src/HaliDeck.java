@@ -21,7 +21,7 @@ public class HaliDeck {
     public HaliCard TakeCardFromDeck()
     {
         if (!_cards.isEmpty()) {
-            return _cards.removeFirst();
+            return _cards.remove(0);
         }
 
         return null;
