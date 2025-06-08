@@ -22,12 +22,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		_inputScanner = new Scanner(System.in);
-
 		InitializeGame();
-
-
-		// ::: Initialization is done.
-		PlayGame();
+		PlayGame(_player);
 	}
 
 
@@ -57,7 +53,6 @@ public class Main {
 			}
 
 		}
-
 		out.println("Starting a " + _participantCount + " player game!");
 
 		// ::: Initializing the participants. The player is participant 0.
@@ -67,14 +62,12 @@ public class Main {
 
 		_cpuPlayers = new ArrayList<Participant>(_participantCount - 1);
 
-
 		for (int i = 1; i < _participantCount; i++) {
 			Participant cpuParticipant = new Participant();
 			GiveParticipantInitialCards(cpuParticipant, _participantCount);
 			_cpuPlayers.add(cpuParticipant);
 			_aliveParticipants.add(cpuParticipant);
 		}
-
 	}
 
 
@@ -89,7 +82,7 @@ public class Main {
 
 			// In initial state, there must be enough cards for everyone.
 			assert (cardFromDeck != null);
-			participant.AddCardToBottom(cardFromDeck);
+			participant.AddCard_ToBottomOfHands(cardFromDeck);
 		}
 	}
 
@@ -97,7 +90,7 @@ public class Main {
 
 
 
-	private static void PlayGame() {
+	private static void PlayGame(Participant player) {
 		boolean gameIsDone = false;
 
 		// ::: Player is always 0
@@ -118,7 +111,7 @@ public class Main {
                    If there is no combination for 5 fruits of the same type, wait for 2 seconds, then go to the next round.
              */
 
-			RoundPartOne(currentPlayerTurn);
+			RoundPartOne(currentPlayerTurn, player);
 			PrintCurrentTableCards();
 			RoundPartTwo();
 
@@ -126,7 +119,6 @@ public class Main {
 			// This is to ensure that dead players don't have any cards laying around on the table.
 			// Draw a diagram to figure out how this should interact with currentPlayerTurn
 			// As it stands, this is wrong and bugged.
-			KickOutDeadParticipants();
 
 			currentPlayerTurn += 1;
 			if (currentPlayerTurn > (_participantCount - 1)) {
@@ -137,10 +129,20 @@ public class Main {
 
 
 
+	// To be called when a player smacks the bell and there are precisely 5 fruits of the same type on the table.
+	private static void GrabAllTableCards()
+	{
+		// TODO: Go through all the alive participants, grab the cards on they have on the table, and add them to
+		// the bottom of the winner's hand cards.
+		
+		KickOutDeadParticipants();
+	}
 
 
+	// Players can only die when someone has 
 	private static void KickOutDeadParticipants() {
 		_aliveParticipants.removeIf(p -> !p.HasACard());
+		// TODO: get the indexes for turns to not be broken
 	}
 
 
@@ -148,32 +150,32 @@ public class Main {
 
 
 	/// Placing a card
-	private static void RoundPartOne(int currentPlayerTurn) {
+	private static void RoundPartOne(int currentPlayerTurn, Participant player) {
 		// ::: Player Turn
 		if (currentPlayerTurn == 0) {
 			// ::: Wait for player to press enter, then place card.
-			System.out.println("Player Turn! (Press enter to place a card.");
+			System.out.print("Player Turn! (Press enter to place a card.");
+			SleepHack(1000);
+
 			_inputScanner.nextLine();
-			_player.PutCardOnTable();
+			player.PutCardOnTable();
 			// TODO: Skip turn if you have no cards.
 
-			System.out.println("Player put " + _player.CardsInFrontOfParticipant.peek().fruitType +
-					  " " + _player.CardsInFrontOfParticipant.peek().countType +
+			System.out.println("Player put " + player.TableCards.peek().fruitType +
+					  " " + player.TableCards.peek().count +
 					  " on the table.");
 
 		}
 
 		// ::: CPU Turn
 		else {
-			System.out.println("CPU " + (currentPlayerTurn + 1) + "'s turn!");
-			SleepHack(500);
+			System.out.println("CPU " + (currentPlayerTurn) + "'s turn!");
+			SleepHack(1000);
 
 			Participant activeCpu = _cpuPlayers.get(currentPlayerTurn - 1);
 			activeCpu.PutCardOnTable();
-			HaliCard cpuNewCard = activeCpu.CardsInFrontOfParticipant.peek();
-			out.println("Player put " + cpuNewCard.fruitType + " " + cpuNewCard.countType + " on the table.");
-
-
+			HaliCard cpuNewCard = activeCpu.TableCards.peek();
+			out.println("CPU " + (currentPlayerTurn) + " put " + cpuNewCard.fruitType + " " + cpuNewCard.count+ " on the table.");
 		}
 	}
 
@@ -182,30 +184,30 @@ public class Main {
 
 
 	private static void PrintCurrentTableCards() {
-		out.println("\n---\nThe Cards on the Table: ");
+		out.println("\n---The Cards on the Table---");
 
 
 		// ::: Reading the card data from the player and CPUs.
 		HaliCard pCard = null;
-		if (!_player.CardsInFrontOfParticipant.isEmpty()) {
-			pCard = _player.CardsInFrontOfParticipant.peek();
+		if (!_player.TableCards.isEmpty()) {
+			pCard = _player.TableCards.peek();
 		}
 
 		if (pCard != null) {
-			out.println("Player: " + pCard.fruitType + " " + pCard.countType);
+			out.println("Player: " + pCard.fruitType + " " + pCard.count);
 		}
 
 		for (int i = 0; i < _participantCount - 1; i++) {
 			HaliCard cCard = null;
-			if (!_cpuPlayers.get(i).CardsInFrontOfParticipant.isEmpty()) {
-				cCard = _cpuPlayers.get(i).CardsInFrontOfParticipant.peek();
+			if (!_cpuPlayers.get(i).TableCards.isEmpty()) {
+				cCard = _cpuPlayers.get(i).TableCards.peek();
 			}
 			if (cCard != null) {
-				out.println("CPU " + (i + 1) + ": " + cCard.fruitType + " " + cCard.countType);
+				out.println("CPU " + (i + 1) + ": " + cCard.fruitType + " " + cCard.count);
 			}
 		}
 
-		out.println("");
+		out.println("---\n");
 	}
 
 
@@ -225,17 +227,20 @@ public class Main {
 
 
 
-	/// Seeing who will smack the bell first
+	/// Seeing who will smack the bell first within a 3 second window.
 	private static void RoundPartTwo() {
 		boolean exactlyFiveOfFruitArePresent = AreFiveFruitsPresent();
 
 
+		// TODO: Multithreading, or some other solution, to solve the problem of 
+		// the player needing to be able to press Enter to smack the bell, 
+		// while at any time during the 3 second window, the CPUs can do it too. 
+
 		if (AreFiveFruitsPresent()) {
 			// ::: Bell is valid. Waiting until one of the participants smacks the bell.
 			out.println("5 fruits were present, but handling that is currently unimplemented");
-
 		} else {
-			// ::: Bell is invalid. Waiting for 2 seconds to see if anyone smacks the bell regardless.
+			// ::: Bell is invalid. Computing a chance that a CPU smacks the bell on accident anyway.
 			boolean cpuSmacksBell = new Random().nextInt(0, 10) == 0; // 10% chance that a cpu smacks bell.
 			if (cpuSmacksBell) {
 				// ::: Retroactively deciding which CPU smacked the bell :)
@@ -244,6 +249,10 @@ public class Main {
 				HandleWrongBellSmack(_cpuPlayers.get(bellSmackerIndex));
 			}
 		}
+		
+		
+		// TODO: Remove this while implementing the function properly.
+		SleepHack(3000);
 	}
 
 
@@ -253,11 +262,11 @@ public class Main {
 	private static void HandleWrongBellSmack(Participant victim) {
 		for (Participant nonVictim : _aliveParticipants) {
 			if (nonVictim != victim) {
-				HaliCard takenCard = victim.RemoveCardFromTop();
+				HaliCard takenCard = victim.RemoveCard_FromHandTop();
 				if (takenCard == null) {
 					break;
 				}
-				nonVictim.AddCardToBottom(takenCard);
+				nonVictim.AddCard_ToBottomOfHands(takenCard);
 				out.println("A card was given to another player.");
 			}
 		}
@@ -278,8 +287,8 @@ public class Main {
 
 		for (Participant aliveParticipant : _aliveParticipants) {
 			HaliCard tableCard = null;
-			if (!aliveParticipant.CardsInFrontOfParticipant.isEmpty()) {
-				tableCard = aliveParticipant.CardsInFrontOfParticipant.peek();
+			if (!aliveParticipant.TableCards.isEmpty()) {
+				tableCard = aliveParticipant.TableCards.peek();
 			}
 			if (tableCard == null) {
 				continue;

@@ -57,38 +57,38 @@ public class HaliDeck {
         // Strawberry 5: 1
 
         for (int i = 0; i < 5; i++) {
-            _cards.add(new HaliCard(FruitType.Banana, CountType.One));
-            _cards.add(new HaliCard(FruitType.Plum, CountType.One));
-            _cards.add(new HaliCard(FruitType.Lime, CountType.One));
-            _cards.add(new HaliCard(FruitType.Strawberry, CountType.One));
+            _cards.add(new HaliCard(FruitType.Banana, 1));
+            _cards.add(new HaliCard(FruitType.Plum, 1));
+            _cards.add(new HaliCard(FruitType.Lime, 1));
+            _cards.add(new HaliCard(FruitType.Strawberry, 1));
         }
 
         for (int i = 0; i < 4; i++) {
-            _cards.add(new HaliCard(FruitType.Plum, CountType.Two));
-            _cards.add(new HaliCard(FruitType.Plum, CountType.Three));
+            _cards.add(new HaliCard(FruitType.Plum, 2));
+            _cards.add(new HaliCard(FruitType.Plum, 3));
         }
 
         for (int i = 0; i < 3; i++) {
-            _cards.add(new HaliCard(FruitType.Banana, CountType.Two));
-            _cards.add(new HaliCard(FruitType.Banana, CountType.Three));
-            _cards.add(new HaliCard(FruitType.Strawberry, CountType.Two));
-            _cards.add(new HaliCard(FruitType.Strawberry, CountType.Three));
+            _cards.add(new HaliCard(FruitType.Banana, 2));
+            _cards.add(new HaliCard(FruitType.Banana, 3));
+            _cards.add(new HaliCard(FruitType.Strawberry, 2));
+            _cards.add(new HaliCard(FruitType.Strawberry, 3));
         }
 
         for (int i = 0; i < 2; i++) {
-            _cards.add(new HaliCard(FruitType.Banana, CountType.Four));
-            _cards.add(new HaliCard(FruitType.Lime, CountType.Two));
-            _cards.add(new HaliCard(FruitType.Lime, CountType.Three));
-            _cards.add(new HaliCard(FruitType.Lime, CountType.Four));
+            _cards.add(new HaliCard(FruitType.Banana, 4));
+            _cards.add(new HaliCard(FruitType.Lime, 2));
+            _cards.add(new HaliCard(FruitType.Lime, 3));
+            _cards.add(new HaliCard(FruitType.Lime, 4));
 
-            _cards.add(new HaliCard(FruitType.Plum, CountType.Four));
-            _cards.add(new HaliCard(FruitType.Strawberry, CountType.Four));
+            _cards.add(new HaliCard(FruitType.Plum, 4));
+            _cards.add(new HaliCard(FruitType.Strawberry, 4));
         }
 
-        _cards.add(new HaliCard(FruitType.Banana, CountType.Five));
-        _cards.add(new HaliCard(FruitType.Lime, CountType.Five));
-        _cards.add(new HaliCard(FruitType.Plum, CountType.Five));
-        _cards.add(new HaliCard(FruitType.Strawberry, CountType.Five));
+        _cards.add(new HaliCard(FruitType.Banana, 5));
+        _cards.add(new HaliCard(FruitType.Lime, 5));
+        _cards.add(new HaliCard(FruitType.Plum, 5));
+        _cards.add(new HaliCard(FruitType.Strawberry, 5));
 
 
         Collections.shuffle(_cards, new Random(System.currentTimeMillis()));
