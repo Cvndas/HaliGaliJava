@@ -215,7 +215,7 @@ public class Main {
 
 
 	private static void SleepHack(int msSleepTime) {
-		try { // Arbitrary delay before CPU places his card
+		try { 
 			Thread.sleep(msSleepTime);
 
 		} catch (Exception e) {
