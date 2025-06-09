@@ -16,19 +16,11 @@ public class Main {
 	private static int _participantCount;
 	public static final int CARDS_IN_DECK = 56;
 
-
-
-
-
 	public static void main(String[] args) {
 		_inputScanner = new Scanner(System.in);
 		InitializeGame();
 		PlayGame(_player);
 	}
-
-
-
-
 
 	private static void InitializeGame() {
 		_deck = new HaliDeck();
@@ -140,24 +132,38 @@ public class Main {
 
 
 	// To be called when a player smacks the bell and there are precisely 5 fruits of the same type on the table.
-	private static void GrabAllTableCards()
-	{
-		// TODO: Go through all the alive participants, grab the cards on they have on the table, and add them to
-		// the bottom of the winner's hand cards.
+	private static void GrabAllTableCards(Participant winner) {
+		for (Participant p : _aliveParticipants) {
+			while (!p.TableCards.isEmpty()) {
+				HaliCard card = p.TableCards.pop();
+				winner.AddCard_ToBottomOfHands(card);
+			}
+		}
+
+		System.out.println(((winner == _player) ? "Player" : "CPU") + " grabbed all the table cards!");
 		
-		KickOutDeadParticipants();
-	}
+	KickOutDeadParticipants();
+}
 
 
 	// Players can only die when someone has 
 	private static void KickOutDeadParticipants() {
-		_aliveParticipants.removeIf(p -> !p.HasACard());
-		// TODO: get the indexes for turns to not be broken
+		ArrayList<Participant> eliminated = new ArrayList<>();
+
+		for (Participant p : _aliveParticipants) {
+			if (!p.HasACard()) {
+				eliminated.add(p);
+			}
+		}
+
+		_aliveParticipants.removeAll(eliminated);
+		_cpuPlayers.removeIf(cpu -> !cpu.HasACard());
+
+		for (Participant p : eliminated) {
+			String who = (p == _player) ? "Player" : "CPU";
+			System.out.println(who + " has been eliminated.");
+		}
 	}
-
-
-
-
 
 	/// Placing a card
 	private static void waitForPlayerCard(int currentPlayerTurn, Participant player) {
@@ -189,10 +195,6 @@ public class Main {
 		}
 	}
 
-
-
-
-
 	private static void PrintCurrentTableCards() {
 		out.println("\n---The Cards on the Table---");
 
@@ -220,10 +222,6 @@ public class Main {
 		out.println("---\n");
 	}
 
-
-
-
-
 	private static void SleepHack(int msSleepTime) {
 		try { 
 			Thread.sleep(msSleepTime);
@@ -232,10 +230,6 @@ public class Main {
 			out.println("This code has no business being triggered. The game is broken");
 		}
 	}
-
-
-
-
 
 	/// Seeing who will smack the bell first within a 3 second window.
 	private static void waitForBell() {
@@ -281,9 +275,6 @@ public class Main {
 			}
 		}
 	}
-
-
-
 
 
 	public static boolean AreFiveFruitsPresent() {
