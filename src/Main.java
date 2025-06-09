@@ -312,12 +312,13 @@ public class Main {
 				limeCount == 5);
 	}
 
-	private static void ProcessUserBellSmacking() {
-		Thread userThread = new Thread(() -> {
-			long startTime = System.currentTimeMillis();
-			System.out.println("Smack the bell! (press Enter)");
+private static void ProcessUserBellSmacking() {
+	Thread userThread = new Thread(() -> {
+		long startTime = System.currentTimeMillis();
+		System.out.println("Smack the bell! (press Enter)");
 
-			while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
+		while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
+			synchronized (_inputScanner) {
 				if (_inputScanner.hasNextLine()) {
 					_inputScanner.nextLine();
 					synchronized (bellLock) {
@@ -330,9 +331,10 @@ public class Main {
 					break;
 				}
 			}
-		});
-		userThread.start();
-	}
+		}
+	});
+	userThread.start();
+}
 
 	private static void ProcessCPUBellSmacking() {
 		Thread cpuThread = new Thread(() -> {
