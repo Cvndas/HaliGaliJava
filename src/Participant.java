@@ -5,33 +5,16 @@ public class Participant {
 
 	// ::: Front of queue is the top of the stack (where cards are taken), back is the bottom (where cards are added)
 	private ArrayDeque<HaliCard> _handCards;
-
-
-
-
-
 	public Participant() {
 		_handCards = new ArrayDeque<>();
 		TableCards = new Stack<>();
 	}
 
-
-
-
-
 	public Stack<HaliCard> TableCards;
-
-
-
-
 
 	public void AddCard_ToBottomOfHands(HaliCard card) {
 		_handCards.addLast(card);
 	}
-
-
-
-
 
 	// Returns null if there was no card.
 	public HaliCard RemoveCard_FromHandTop() {
@@ -42,17 +25,9 @@ public class Participant {
 		return _handCards.removeFirst();
 	}
 
-
-
-
-
 	public boolean HasACard() {
 		return !_handCards.isEmpty();
 	}
-
-
-
-
 
 	public void PutCardOnTable() {
 		HaliCard card = RemoveCard_FromHandTop();

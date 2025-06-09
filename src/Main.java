@@ -101,6 +101,14 @@ public class Main {
 		// round.
 
 		while (!gameIsDone) {
+			
+			if (_aliveParticipants.size() == 1) {
+				gameIsDone = true;
+				Participant winner = _aliveParticipants.get(0);
+				String winnerString = (_aliveParticipants.get(0) == _player) ? "Player" : "CPU";
+				System.out.println(winnerString + "Wins!");
+			}
+
 
 			// ::: The idea
             /*
@@ -111,9 +119,11 @@ public class Main {
                    If there is no combination for 5 fruits of the same type, wait for 2 seconds, then go to the next round.
              */
 
-			RoundPartOne(currentPlayerTurn, player);
+			
+
+			waitForPlayerCard(currentPlayerTurn, player);
 			PrintCurrentTableCards();
-			RoundPartTwo();
+			waitForBell();
 
 			// TODO: Kicking out dead participants should only happen upon a bell smack.
 			// This is to ensure that dead players don't have any cards laying around on the table.
@@ -150,7 +160,7 @@ public class Main {
 
 
 	/// Placing a card
-	private static void RoundPartOne(int currentPlayerTurn, Participant player) {
+	private static void waitForPlayerCard(int currentPlayerTurn, Participant player) {
 		// ::: Player Turn
 		if (currentPlayerTurn == 0) {
 			// ::: Wait for player to press enter, then place card.
@@ -228,7 +238,7 @@ public class Main {
 
 
 	/// Seeing who will smack the bell first within a 3 second window.
-	private static void RoundPartTwo() {
+	private static void waitForBell() {
 		boolean exactlyFiveOfFruitArePresent = AreFiveFruitsPresent();
 
 
