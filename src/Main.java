@@ -4,6 +4,8 @@ import java.util.Random;
 
 import static java.lang.System.out;
 
+import java.io.IOException;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -108,6 +110,7 @@ public class Main {
 			 */
 
 			waitForPlayerCard(currentPlayerTurn, player);
+			clearUserInput();
 			PrintCurrentTableCards();
 			waitForBell();
 
@@ -241,7 +244,26 @@ public class Main {
 				ProcessCPUBellSmacking();
 				SleepHack(3000);
 			}
-		} else {
+		}
+		else
+		{
+			// ::: Give user some time to smack invalidly
+			long startTime = System.currentTimeMillis();
+			while (System.currentTimeMillis() - startTime < 1000) {
+				try {
+					if (System.in.available() > 0) {
+						synchronized (_inputScanner) {
+							_inputScanner.nextLine();
+							System.out.println("Player smacked the bell incorrectly!");
+							HandleWrongBellSmack(_player);
+							return;
+						}
+					}
+				} catch (IOException e) {
+					System.out.println("Input check failed.");
+				}
+				SleepHack(50);
+			}
 			// ::: Bell is invalid. Computing a chance that a CPU smacks the bell on
 			// accident anyway.
 			boolean cpuSmacksBell = new Random().nextInt(0, 10) == 0; // 10% chance that a cpu smacks bell.
@@ -312,29 +334,44 @@ public class Main {
 				limeCount == 5);
 	}
 
-private static void ProcessUserBellSmacking() {
-	Thread userThread = new Thread(() -> {
-		long startTime = System.currentTimeMillis();
-		System.out.println("Smack the bell! (press Enter)");
+	private static void clearUserInput() {
+		try {
+			while (System.in.available() > 0) {
+				out.println("Before eating next line");
+				_inputScanner.nextLine();
+				out.println("After eating next line");
+			}
+		} catch (Exception e) {
+			out.println("Checking if there was userinput threw exception: " + e.getMessage());
+		}
+	}
 
-		while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
-			synchronized (_inputScanner) {
-				if (_inputScanner.hasNextLine()) {
-					_inputScanner.nextLine();
-					synchronized (bellLock) {
-						if (!bellAlreadyHandled) {
-							userSmackedBell = true;
-							bellAlreadyHandled = true;
-							HandleCorrectBellSmack(_player);
+	private static void ProcessUserBellSmacking() {
+		Thread userThread = new Thread(() -> {
+			long startTime = System.currentTimeMillis();
+			System.out.println("Smack the bell! (press Enter)");
+			while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
+				try {
+					if (System.in.available() > 0) {
+						synchronized (_inputScanner) {
+							_inputScanner.nextLine();
+							synchronized (bellLock) {
+								if (!bellAlreadyHandled) {
+									userSmackedBell = true;
+									bellAlreadyHandled = true;
+									HandleCorrectBellSmack(_player);
+								}
+							}
+							break;
 						}
 					}
-					break;
+				} catch (IOException e) {
+					System.out.println("Error checking input availability");
 				}
 			}
-		}
-	});
-	userThread.start();
-}
+		});
+		userThread.start();
+	}
 
 	private static void ProcessCPUBellSmacking() {
 		Thread cpuThread = new Thread(() -> {
