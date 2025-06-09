@@ -35,6 +35,7 @@ public class Main {
 		_aliveParticipants = new ArrayList<>();
 
 		System.out.println("Choose a player count. Options: 2, 3, 4 ");
+		
 
 		boolean playerCountIsValid = false;
 		_participantCount = -1;
