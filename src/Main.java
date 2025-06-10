@@ -1,9 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
-
 import static java.lang.System.out;
-
 import java.io.IOException;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -12,6 +10,7 @@ public class Main {
 
 	private static ArrayList<Participant> _cpuPlayers;
 	private static ArrayList<Participant> _aliveParticipants;
+	private static ArrayList<Participant> _allParticipants;
 	private static Participant _player;
 	private static HaliDeck _deck;
 	private static Scanner _inputScanner;
@@ -30,6 +29,7 @@ public class Main {
 	private static void InitializeGame() {
 		_deck = new HaliDeck();
 		_aliveParticipants = new ArrayList<>();
+		_allParticipants = new ArrayList<>();
 
 		System.out.println("Choose a player count. Options: 2, 3, 4 ");
 
@@ -54,6 +54,7 @@ public class Main {
 		String playerName = providePlayerName(_inputScanner);
 		_player = new Participant(playerName);
 		_aliveParticipants.add(_player);
+		_allParticipants.add(_player);
 		GiveParticipantInitialCards(_player, _participantCount);
 
 		ArrayList<String> cpuNames = generateCpuNames(_participantCount - 1);
@@ -64,6 +65,7 @@ public class Main {
 			GiveParticipantInitialCards(cpuParticipant, _participantCount);
 			_cpuPlayers.add(cpuParticipant);
 			_aliveParticipants.add(cpuParticipant);
+			_allParticipants.add(cpuParticipant);
 		}
 	}
 
@@ -115,7 +117,8 @@ public class Main {
 			if (_aliveParticipants.size() == 1) {
 				gameIsDone = true;
 				Participant winner = _aliveParticipants.get(0);
-				System.out.println(winner.name + "Wins!");
+				// System.out.println(winner.name + "Wins!");
+				PlayEndScreen(winner);
 			}
 
 			// ::: The idea
@@ -141,7 +144,7 @@ public class Main {
 			// As it stands, this is wrong and bugged.
 
 			currentPlayerTurn += 1;
-			if (currentPlayerTurn > (_participantCount - 1)) {
+			if (currentPlayerTurn >= _aliveParticipants.size()) {
 				currentPlayerTurn = 0;
 			}
 		}
@@ -180,35 +183,65 @@ public class Main {
 		}
 	}
 
-	/// Placing a card
-	private static void waitForPlayerCard(int currentPlayerTurn, Participant player) {
-		// ::: Player Turn
-		if (currentPlayerTurn == 0) {
-			// ::: Wait for player to press enter, then place card.
-			System.out.print("Your Turn! (Press enter to place a card.)");
-			SleepHack(1000);
+	private static void PlayEndScreen(Participant winner) {
+		System.out.println("\n===============================");
+		System.out.println("         GAME OVER!");
+		System.out.println("===============================");
+		System.out.println("Winner: " + winner.name);
 
-			_inputScanner.nextLine();
-			player.PutCardOnTable();
-			// TODO: Skip turn if you have no cards.
+		GetStatistics();
 
-			System.out.println(_player.name + " put " + player.TableCards.peek().fruitType +
-					" " + player.TableCards.peek().count +
-					" on the table.");
-
-		}
-
-		// ::: CPU Turn
-		else {
-			Participant activeCpu = _cpuPlayers.get(currentPlayerTurn - 1);
-			System.out.println(activeCpu.name + "'s turn!");
-			SleepHack(1000);
-			activeCpu.PutCardOnTable();
-			HaliCard cpuNewCard = activeCpu.TableCards.peek();
-			out.println(activeCpu.name + " put " + cpuNewCard.fruitType + " " + cpuNewCard.count
-					+ " on the table.");
+		System.out.println("Would you like to play again? (y/n)");
+		String answer = _inputScanner.nextLine().trim().toLowerCase();
+		if (answer.equals("y")) {
+			InitializeGame();
+			PlayGame(_player);
+		} else {
+			System.out.println("Goodbye!");
+			System.exit(0);
 		}
 	}
+	
+	private static void GetStatistics() {
+			System.out.println("\n--- Game Statistics ---");
+
+			for (Participant p : _allParticipants) {
+				System.out.println("Player: " + p.name);
+				System.out.println("  Correct Bell Presses: " + p.correctBellCount);
+				System.out.println("  Max Inventory Size: " + p.maxInventorySize);
+				System.out.println();
+			}
+		}
+	
+	private static void waitForPlayerCard(int currentPlayerTurn, Participant player) {
+		Participant participant = _aliveParticipants.get(currentPlayerTurn);
+
+		if (participant.getHandCardSize() == 0) {
+			System.out.println(participant.name + " has no cards and skips this turn.");
+			return;
+		}
+
+		// Oyuncu kendi sırasıysa
+		if (participant == player) {
+			System.out.print("Your Turn! (Press enter to place a card.)");
+			SleepHack(1000);
+			_inputScanner.nextLine();
+
+			participant.PutCardOnTable();
+			HaliCard card = participant.TableCards.peek();
+			System.out.println(participant.name + " put " + card.fruitType + " " + card.count + " on the table.");
+		} 
+		// CPU sırasıysa
+		else {
+			System.out.println(participant.name + "'s turn!");
+			SleepHack(1000);
+			participant.PutCardOnTable();
+			HaliCard card = participant.TableCards.peek();
+			out.println(participant.name + " put " + card.fruitType + " " + card.count + " on the table.");
+		}
+	}
+
+
 
 	private static void PrintCurrentTableCards() {
 		out.println("\n---The Cards on the Table---");
@@ -223,7 +256,8 @@ public class Main {
 			out.println(_player.name + ": " + pCard.fruitType + " " + pCard.count);
 		}
 
-		for (int i = 0; i < _participantCount - 1; i++) {
+		// for (int i = 0; i < _participantCount - 1; i++) {
+		for (int i = 0; i < _cpuPlayers.size(); i++) {
 			HaliCard cCard = null;
 			if (!_cpuPlayers.get(i).TableCards.isEmpty()) {
 				cCard = _cpuPlayers.get(i).TableCards.peek();
@@ -287,9 +321,12 @@ public class Main {
 			boolean cpuSmacksBell = new Random().nextInt(0, 10) == 0; // 10% chance that a cpu smacks bell.
 			if (cpuSmacksBell) {
 				// ::: Retroactively deciding which CPU smacked the bell :)
-				int bellSmackerIndex = new Random().nextInt(0, _participantCount - 1);
-				out.println(_cpuPlayers.get(bellSmackerIndex).name + " messed up!");
-				HandleWrongBellSmack(_cpuPlayers.get(bellSmackerIndex));
+				if (_cpuPlayers.size() > 0) {
+					int bellSmackerIndex = new Random().nextInt(_cpuPlayers.size());
+					Participant cpuWhoMessedUp = _cpuPlayers.get(bellSmackerIndex);
+					out.println(cpuWhoMessedUp.name + " messed up!");
+					HandleWrongBellSmack(cpuWhoMessedUp);
+				}
 			}
 		}
 
@@ -308,6 +345,7 @@ public class Main {
 				out.println("A card was given to another player.");
 			}
 		}
+		KickOutDeadParticipants();
 	}
 
 	public static boolean AreFiveFruitsPresent() {
@@ -417,6 +455,7 @@ public class Main {
 
 	private static void HandleCorrectBellSmack(Participant winner) {
 		System.out.println(winner.name + " smacked the bell correctly!");
+		winner.correctBellCount++;
 		GrabAllTableCards(winner);
 	}
 }

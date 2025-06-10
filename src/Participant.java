@@ -5,17 +5,26 @@ public class Participant {
 
 	// ::: Front of queue is the top of the stack (where cards are taken), back is the bottom (where cards are added)
 	public String name;
+	public int correctBellCount = 0;
+	public int maxInventorySize = 0;
 	private ArrayDeque<HaliCard> _handCards;
 	public Participant(String name) {
 		this.name = name;
 		_handCards = new ArrayDeque<>();
 		TableCards = new Stack<>();
 	}
+	
+	public int getHandCardSize() {
+		return _handCards.size();
+	}
 
 	public Stack<HaliCard> TableCards;
 
 	public void AddCard_ToBottomOfHands(HaliCard card) {
 		_handCards.addLast(card);
+		if (_handCards.size() > maxInventorySize) {
+			maxInventorySize = _handCards.size();
+		}
 	}
 
 	// Returns null if there was no card.
