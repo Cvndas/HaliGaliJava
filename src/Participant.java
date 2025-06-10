@@ -4,8 +4,10 @@ import java.util.Stack;
 public class Participant {
 
 	// ::: Front of queue is the top of the stack (where cards are taken), back is the bottom (where cards are added)
+	public String name;
 	private ArrayDeque<HaliCard> _handCards;
-	public Participant() {
+	public Participant(String name) {
+		this.name = name;
 		_handCards = new ArrayDeque<>();
 		TableCards = new Stack<>();
 	}
