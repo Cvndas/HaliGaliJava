@@ -1,10 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
+
 import static java.lang.System.out;
+
 import java.io.IOException;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
@@ -20,11 +23,19 @@ public class Main {
 	private static volatile boolean userSmackedBell = false;
 	private static volatile boolean bellAlreadyHandled = false;
 
+
+
+
+
 	public static void main(String[] args) {
 		_inputScanner = new Scanner(System.in);
 		InitializeGame();
 		PlayGame(_player);
 	}
+
+
+
+
 
 	private static void InitializeGame() {
 		_deck = new HaliDeck();
@@ -42,8 +53,8 @@ public class Main {
 				_inputScanner.nextLine();
 			}
 			playerCountIsValid = (_participantCount == 2) ||
-					(_participantCount == 3) ||
-					(_participantCount == 4);
+					  (_participantCount == 3) ||
+					  (_participantCount == 4);
 			if (!playerCountIsValid) {
 				out.println("Invalid player count. Options: 2, 3, 4");
 			}
@@ -69,6 +80,10 @@ public class Main {
 		}
 	}
 
+
+
+
+
 	public static ArrayList<String> generateCpuNames(int cpuCount) {
 		ArrayList<String> names = new ArrayList<>();
 		String[] possibleNames = {"BotMax", "Botana", "NeuroBot", "HaliBot", "GaliBot"};
@@ -84,10 +99,28 @@ public class Main {
 		return names;
 	}
 
+
+
+
+
 	public static String providePlayerName(Scanner scanner) {
 		System.out.println("Enter your name:");
-		return scanner.nextLine();
+		String name = "";
+		while (true) {
+
+			name = scanner.nextLine();
+			if (name.isEmpty()) {
+				out.println("Name is too short.");
+				continue;
+			}
+			break;
+		}
+		return name;
 	}
+
+
+
+
 
 	private static void GiveParticipantInitialCards(Participant participant, int participantCount) {
 		int cardsToGiveToParticipant = CARDS_IN_DECK / participantCount;
@@ -100,6 +133,10 @@ public class Main {
 			participant.AddCard_ToBottomOfHands(cardFromDeck);
 		}
 	}
+
+
+
+
 
 	private static void PlayGame(Participant player) {
 		boolean gameIsDone = false;
@@ -125,12 +162,13 @@ public class Main {
 			/*
 			 * Each round consists of two parts:
 			 * 1. Waiting for the current player to place a card
-			 * 
+			 *
 			 * 2. If there is a combination for 5 fruits of the same type, wait until
 			 * someone presses spacebar.
 			 * If there is no combination for 5 fruits of the same type, wait for 2 seconds,
 			 * then go to the next round.
 			 */
+			out.println("\n======================");
 
 			waitForPlayerCard(currentPlayerTurn, player);
 			clearUserInput();
@@ -150,6 +188,10 @@ public class Main {
 		}
 	}
 
+
+
+
+
 	// To be called when a player smacks the bell and there are precisely 5 fruits
 	// of the same type on the table.
 	private static void GrabAllTableCards(Participant winner) {
@@ -164,6 +206,10 @@ public class Main {
 
 		KickOutDeadParticipants();
 	}
+
+
+
+
 
 	// Players can only die when someone has
 	private static void KickOutDeadParticipants() {
@@ -183,6 +229,10 @@ public class Main {
 		}
 	}
 
+
+
+
+
 	private static void PlayEndScreen(Participant winner) {
 		System.out.println("\n===============================");
 		System.out.println("         GAME OVER!");
@@ -194,6 +244,7 @@ public class Main {
 		System.out.println("Would you like to play again? (y/n)");
 		String answer = _inputScanner.nextLine().trim().toLowerCase();
 		if (answer.equals("y")) {
+			ResetGame();
 			InitializeGame();
 			PlayGame(_player);
 		} else {
@@ -201,18 +252,26 @@ public class Main {
 			System.exit(0);
 		}
 	}
-	
-	private static void GetStatistics() {
-			System.out.println("\n--- Game Statistics ---");
 
-			for (Participant p : _allParticipants) {
-				System.out.println("Player: " + p.name);
-				System.out.println("  Correct Bell Presses: " + p.correctBellCount);
-				System.out.println("  Max Inventory Size: " + p.maxInventorySize);
-				System.out.println();
-			}
+
+
+
+
+	private static void GetStatistics() {
+		System.out.println("\n--- Game Statistics ---");
+
+		for (Participant p : _allParticipants) {
+			System.out.println("Player: " + p.name);
+			System.out.println("  Correct Bell Presses: " + p.correctBellCount);
+			System.out.println("  Max Inventory Size: " + p.maxInventorySize);
+			System.out.println();
 		}
-	
+	}
+
+
+
+
+
 	private static void waitForPlayerCard(int currentPlayerTurn, Participant player) {
 		Participant participant = _aliveParticipants.get(currentPlayerTurn);
 
@@ -230,7 +289,7 @@ public class Main {
 			participant.PutCardOnTable();
 			HaliCard card = participant.TableCards.peek();
 			System.out.println(participant.name + " put " + card.fruitType + " " + card.count + " on the table.");
-		} 
+		}
 		// CPU sırasıysa
 		else {
 			System.out.println(participant.name + "'s turn!");
@@ -240,6 +299,8 @@ public class Main {
 			out.println(participant.name + " put " + card.fruitType + " " + card.count + " on the table.");
 		}
 	}
+
+
 
 
 
@@ -267,8 +328,12 @@ public class Main {
 			}
 		}
 
-		out.println("---\n");
+		out.println("----------------------------");
 	}
+
+
+
+
 
 	private static void SleepHack(int msSleepTime) {
 		try {
@@ -279,62 +344,37 @@ public class Main {
 		}
 	}
 
+
+
+
+
 	/// Seeing who will smack the bell first within a 3 second window.
 	private static void waitForBell() {
-		boolean exactlyFiveOfFruitArePresent = AreFiveFruitsPresent();
 
-		// TODO: Multithreading, or some other solution, to solve the problem of
-		// the player needing to be able to press Enter to smack the bell,
-		// while at any time during the 3 second window, the CPUs can do it too.
+		out.println("!!!SMACK THE BELL!!!");
+		userSmackedBell = false;
+		bellAlreadyHandled = false;
+		clearUserInput();
+		boolean fiveFruitsArePresent = AreFiveFruitsPresent();
+		Thread userBellSmackThread = ProcessUserBellSmacking(fiveFruitsArePresent);
+		Thread cpuBellSmackThread = ProcessCPUBellSmacking(fiveFruitsArePresent);
 
-		if (AreFiveFruitsPresent()) {
-			// ::: Bell is valid. Waiting until one of the participants smacks the bell.
-			if (AreFiveFruitsPresent()) {
-				userSmackedBell = false;
-				bellAlreadyHandled = false;
-				ProcessUserBellSmacking();
-				ProcessCPUBellSmacking();
-				SleepHack(3000);
-			}
-		}
-		else
-		{
-			// ::: Give user some time to smack invalidly
-			long startTime = System.currentTimeMillis();
-			while (System.currentTimeMillis() - startTime < 1000) {
-				try {
-					if (System.in.available() > 0) {
-						synchronized (_inputScanner) {
-							_inputScanner.nextLine();
-							System.out.println("You smacked the bell incorrectly!");
-							HandleWrongBellSmack(_player);
-							return;
-						}
-					}
-				} catch (IOException e) {
-					System.out.println("Input check failed.");
-				}
-				SleepHack(50);
-			}
-			// ::: Bell is invalid. Computing a chance that a CPU smacks the bell on
-			// accident anyway.
-			boolean cpuSmacksBell = new Random().nextInt(0, 10) == 0; // 10% chance that a cpu smacks bell.
-			if (cpuSmacksBell) {
-				// ::: Retroactively deciding which CPU smacked the bell :)
-				if (_cpuPlayers.size() > 0) {
-					int bellSmackerIndex = new Random().nextInt(_cpuPlayers.size());
-					Participant cpuWhoMessedUp = _cpuPlayers.get(bellSmackerIndex);
-					out.println(cpuWhoMessedUp.name + " messed up!");
-					HandleWrongBellSmack(cpuWhoMessedUp);
-				}
-			}
-		}
-
-		// TODO: Remove this while implementing the function properly.
+		// ::: After 3 seconds, join the bell smacking threads.
 		SleepHack(3000);
+		try {
+			userBellSmackThread.join();
+			cpuBellSmackThread.join();
+		} catch (Exception e) {
+			out.println("Failed to join thread: " + e.getMessage());
+		}
 	}
 
+
+
+
+
 	private static void HandleWrongBellSmack(Participant victim) {
+		out.println(victim.name + " miscounted!");
 		for (Participant nonVictim : _aliveParticipants) {
 			if (nonVictim != victim) {
 				HaliCard takenCard = victim.RemoveCard_FromHandTop();
@@ -342,11 +382,16 @@ public class Main {
 					break;
 				}
 				nonVictim.AddCard_ToBottomOfHands(takenCard);
-				out.println("A card was given to another player.");
+				out.println(victim.name + " gave a card to " + nonVictim.name);
 			}
 		}
+		out.println(victim.name + " now has " + victim.getHandCardSize() + " cards.");
 		KickOutDeadParticipants();
 	}
+
+
+
+
 
 	public static boolean AreFiveFruitsPresent() {
 		// ::: Idea: Go over all alive players, and read their fruits. Check for matches
@@ -385,37 +430,46 @@ public class Main {
 			}
 		}
 		return (bananaCount == 5 ||
-				strawberryCount == 5 ||
-				plumeCount == 5 ||
-				limeCount == 5);
+				  strawberryCount == 5 ||
+				  plumeCount == 5 ||
+				  limeCount == 5);
 	}
+
+
+
+
 
 	private static void clearUserInput() {
 		try {
 			while (System.in.available() > 0) {
-				out.println("Before eating next line");
 				_inputScanner.nextLine();
-				out.println("After eating next line");
 			}
 		} catch (Exception e) {
 			out.println("Checking if there was userinput threw exception: " + e.getMessage());
 		}
 	}
 
-	private static void ProcessUserBellSmacking() {
+
+
+
+
+	private static Thread ProcessUserBellSmacking(boolean fiveFruitsArePresent) {
 		Thread userThread = new Thread(() -> {
 			long startTime = System.currentTimeMillis();
 			System.out.println("Smack the bell! (press Enter)");
 			while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
 				try {
 					if (System.in.available() > 0) {
-						synchronized (_inputScanner) {
-							_inputScanner.nextLine();
-							synchronized (bellLock) {
-								if (!bellAlreadyHandled) {
-									userSmackedBell = true;
-									bellAlreadyHandled = true;
+//						synchronized (_inputScanner) {
+						_inputScanner.nextLine();
+						synchronized (bellLock) {
+							if (!bellAlreadyHandled) {
+								userSmackedBell = true;
+								bellAlreadyHandled = true;
+								if (fiveFruitsArePresent) {
 									HandleCorrectBellSmack(_player);
+								} else {
+									HandleWrongBellSmack(_player);
 								}
 							}
 							break;
@@ -427,55 +481,74 @@ public class Main {
 			}
 		});
 		userThread.start();
+
+		return userThread;
 	}
 
-	private static void ProcessCPUBellSmacking() {
+
+
+
+
+	private static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent) {
 		Thread cpuThread = new Thread(() -> {
-			try {
-				Thread.sleep(new Random().nextInt(3000));
-			} catch (InterruptedException e) {
-				return;
-			}
+			SleepHack(new Random().nextInt(3000));
+			
 			// 50 % chance it will smack
 			if (new Random().nextBoolean()) {
 				synchronized (bellLock) {
 					if (!bellAlreadyHandled) {
 						Participant cpuWhoSmacked = _cpuPlayers.get(new Random().nextInt(_cpuPlayers.size()));
-						System.out.println("CPU smacked the bell!");
+						System.out.println(cpuWhoSmacked.name + " smacked the bell!");
 						bellAlreadyHandled = true;
-						HandleCorrectBellSmack(cpuWhoSmacked);
+						if (fiveFruitsArePresent) {
+							HandleCorrectBellSmack(cpuWhoSmacked);
+						} else {
+							HandleWrongBellSmack(cpuWhoSmacked);
+						}
 					}
 				}
-			} else {
-				System.out.println("CPU messed up hope you didnt.");
 			}
+//			else {
+//				
+//				System.out.println("CPU messed up hope you didnt.");
+//			}
 		});
 		cpuThread.start();
+		return cpuThread;
 	}
 
+
+
+
+
 	private static void HandleCorrectBellSmack(Participant winner) {
-		System.out.println(winner.name + " smacked the bell correctly!");
+		System.out.println(winner.name + " smacked the bell successfully!");
 		winner.correctBellCount++;
 		GrabAllTableCards(winner);
+		out.println(winner.name + " now has " + winner.getHandCardSize() + " cards.");
 	}
+
+
+
+
 
 	private static void ResetGame() {
 		_cpuPlayers.clear();
 		_aliveParticipants.clear();
 
-		_deck = new HaliDeck();
-		_player = new Participant();
-		_aliveParticipants.add(_player);
-
-		GiveParticipantInitialCards(_player, _participantCount);
-
-		for (int i = 1; i < _participantCount; i++) {
-			Participant cpu = new Participant();
-			GiveParticipantInitialCards(cpu, _participantCount);
-			_cpuPlayers.add(cpu);
-			_aliveParticipants.add(cpu);
-		}
-
+//		_deck = new HaliDeck();
+//		_player = new Participant();
+//		_aliveParticipants.add(_player);
+//
+//		GiveParticipantInitialCards(_player, _participantCount);
+//
+//		for (int i = 1; i < _participantCount; i++) {
+//			Participant cpu = new Participant();
+//			GiveParticipantInitialCards(cpu, _participantCount);
+//			_cpuPlayers.add(cpu);
+//			_aliveParticipants.add(cpu);
+//		}
+//
 		System.out.println("\nGame has been reset!\n");
 	}
 
