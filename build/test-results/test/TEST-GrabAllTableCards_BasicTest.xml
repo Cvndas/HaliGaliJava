@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="GrabAllTableCards_BasicTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-10T23:22:33" hostname="Aurora" time="0.086">
+  <properties/>
+  <testcase name="GrabAllTableCards_BasicTest_WinnerGetsCards()" classname="GrabAllTableCards_BasicTest" time="0.086"/>
+  <system-out><![CDATA[Player grabbed all the table cards!
+CPU has been eliminated.
+CPU has been eliminated.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
