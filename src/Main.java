@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
@@ -13,6 +14,7 @@ public class Main {
 
 	private static ArrayList<Participant> _cpuPlayers;
 	private static ArrayList<Participant> _aliveParticipants;
+	private static ArrayList<Participant> _deadParticipants;
 	private static ArrayList<Participant> _allParticipants;
 	private static Participant _player;
 	private static HaliDeck _deck;
@@ -40,6 +42,7 @@ public class Main {
 	private static void InitializeGame() {
 		_deck = new HaliDeck();
 		_aliveParticipants = new ArrayList<>();
+		_deadParticipants = new ArrayList<>();
 		_allParticipants = new ArrayList<>();
 
 		System.out.println("Choose a player count. Options: 2, 3, 4 ");
@@ -175,16 +178,26 @@ public class Main {
 			PrintCurrentTableCards();
 			waitForBell();
 
-			// TODO: Kicking out dead participants should only happen upon a bell smack.
-			// This is to ensure that dead players don't have any cards laying around on the
-			// table.
-			// Draw a diagram to figure out how this should interact with currentPlayerTurn
-			// As it stands, this is wrong and bugged.
 
-			currentPlayerTurn += 1;
-			if (currentPlayerTurn >= _aliveParticipants.size()) {
-				currentPlayerTurn = 0;
+			// ::: Progresing the turn.
+			boolean validTurnSet = false;
+			while (!validTurnSet) {
+				currentPlayerTurn += 1;
+				if (currentPlayerTurn >= _cpuPlayers.size() - 1) {
+					currentPlayerTurn = 0;
+				}
+
+				boolean deadPlayerWasSet = (currentPlayerTurn == 0 && _deadParticipants.contains(_player));
+				if (deadPlayerWasSet) {
+					currentPlayerTurn += 1;
+				}
+
+				boolean deadCpuWasSet = (currentPlayerTurn != 0 && _deadParticipants.contains(_cpuPlayers.get(currentPlayerTurn - 1)));
+				if (!deadCpuWasSet) {
+					validTurnSet = true;
+				}
 			}
+
 		}
 	}
 
@@ -215,14 +228,17 @@ public class Main {
 	private static void KickOutDeadParticipants() {
 		ArrayList<Participant> eliminated = new ArrayList<>();
 
+		// ::: Removing participants from _aliveParticipants
 		for (Participant p : _aliveParticipants) {
 			if (!p.HasACard()) {
 				eliminated.add(p);
 			}
 		}
-
 		_aliveParticipants.removeAll(eliminated);
-		_cpuPlayers.removeIf(cpu -> !cpu.HasACard());
+		_deadParticipants.addAll(eliminated);
+
+//		// ::: Removing the newly deceased CPUs from the _cpuPlayers list.
+//		_cpuPlayers.removeIf(cpu -> !cpu.HasACard());
 
 		for (Participant p : eliminated) {
 			System.out.println(p.name + " has been eliminated.");
@@ -491,14 +507,15 @@ public class Main {
 
 	private static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent) {
 		Thread cpuThread = new Thread(() -> {
-			SleepHack(new Random().nextInt(3000));
-			
+			SleepHack( new Random().nextInt(1000, 3000));
+
 			// 50 % chance it will smack
 			if (new Random().nextBoolean()) {
 				synchronized (bellLock) {
 					if (!bellAlreadyHandled) {
-						Participant cpuWhoSmacked = _cpuPlayers.get(new Random().nextInt(_cpuPlayers.size()));
+						Participant cpuWhoSmacked = _cpuPlayers.get(new Random().nextInt(_aliveParticipants.size()));
 						System.out.println(cpuWhoSmacked.name + " smacked the bell!");
+						assert(!_deadParticipants.contains(cpuWhoSmacked));
 						bellAlreadyHandled = true;
 						if (fiveFruitsArePresent) {
 							HandleCorrectBellSmack(cpuWhoSmacked);
@@ -535,6 +552,7 @@ public class Main {
 	private static void ResetGame() {
 		_cpuPlayers.clear();
 		_aliveParticipants.clear();
+		_deadParticipants.clear();
 
 //		_deck = new HaliDeck();
 //		_player = new Participant();
