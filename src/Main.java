@@ -12,10 +12,10 @@ import java.io.IOException;
 public class Main {
 
 	private static ArrayList<Participant> _allCpuParticipants;
-	
+
 	// Variable containing ALL alive participants, including the player
 	private static ArrayList<Participant> _aliveParticipants;
-	
+
 	// Variable storing only the CPU participants who are alive, excluding the player.
 	private static ArrayList<Participant> _aliveCpuParticipants;
 	private static ArrayList<Participant> _deadParticipants;
@@ -87,8 +87,7 @@ public class Main {
 			_aliveCpuParticipants.add(cpuParticipant);
 			_allParticipants.add(cpuParticipant);
 		}
-		
-		out.println("length of cpuplayers upon init: "+ _allCpuParticipants.size());
+//		out.println("length of cpuplayers upon init: "+ _allCpuParticipants.size());
 	}
 
 
@@ -186,30 +185,40 @@ public class Main {
 			PrintCurrentTableCards();
 			waitForBell();
 
+			currentPlayerTurn = ProgressTurnIndex(currentPlayerTurn);
 
-			// ::: Progresing the turn.
-			boolean validTurnSet = false;
-			while (!validTurnSet) {
-				currentPlayerTurn += 1;
-				if (currentPlayerTurn > _allCpuParticipants.size()) {
-					currentPlayerTurn = 0;
-				}
-
-				boolean deadPlayerWasSet = (currentPlayerTurn == 0 && _deadParticipants.contains(_player));
-				if (deadPlayerWasSet) {
-					currentPlayerTurn += 1;
-				}
-
-				boolean deadCpuWasSet = (currentPlayerTurn != 0 && _deadParticipants.contains(_allCpuParticipants.get(currentPlayerTurn - 1)));
-				if (!deadCpuWasSet) {
-					validTurnSet = true;
-				}
-				else {
-					out.println("A dead cpu was set, trying again. index was" + currentPlayerTurn);
-				}
-			}
 
 		}
+	}
+
+
+
+
+
+	// Returns the new currentPlayerTurn value, to be used in the next iteration of the game loop.
+	private static int ProgressTurnIndex(int currentPlayerTurn) {
+		// ::: Progresing the turn.
+		boolean validTurnSet = false;
+		while (!validTurnSet) {
+			currentPlayerTurn += 1;
+			if (currentPlayerTurn > _allCpuParticipants.size()) {
+				currentPlayerTurn = 0;
+			}
+
+			boolean deadPlayerWasSet = (currentPlayerTurn == 0 && _deadParticipants.contains(_player));
+			if (deadPlayerWasSet) {
+				currentPlayerTurn += 1;
+			}
+
+			boolean deadCpuWasSet = (currentPlayerTurn != 0 && _deadParticipants.contains(_allCpuParticipants.get(currentPlayerTurn - 1)));
+			if (!deadCpuWasSet) {
+				validTurnSet = true;
+			} else {
+				out.println("A dead cpu was set, trying again. index was" + currentPlayerTurn);
+			}
+		}
+		
+		return currentPlayerTurn;
 	}
 
 
@@ -267,7 +276,7 @@ public class Main {
 		System.out.println("===============================");
 		System.out.println("Winner: " + winner.name);
 
-		GetStatistics();
+		PrintStatistics();
 
 		System.out.println("Would you like to play again? (y/n)");
 		String answer = _inputScanner.nextLine().trim().toLowerCase();
@@ -285,7 +294,7 @@ public class Main {
 
 
 
-	private static void GetStatistics() {
+	private static void PrintStatistics() {
 		System.out.println("\n--- Game Statistics ---");
 
 		for (Participant p : _allParticipants) {
@@ -379,7 +388,6 @@ public class Main {
 	/// Seeing who will smack the bell first within a 3 second window.
 	private static void waitForBell() {
 
-		out.println("!!!SMACK THE BELL!!!");
 		userSmackedBell = false;
 		bellAlreadyHandled = false;
 		clearUserInput();
@@ -484,7 +492,7 @@ public class Main {
 	private static Thread ProcessUserBellSmacking(boolean fiveFruitsArePresent) {
 		Thread userThread = new Thread(() -> {
 			long startTime = System.currentTimeMillis();
-			System.out.println("Smack the bell! (press Enter)");
+			System.out.println("!!!COUNT 5 FRUITS? SMACK THE BELL!!! (press Enter)");
 			while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
 				if (_deadParticipants.contains(_player)) {
 					break;
