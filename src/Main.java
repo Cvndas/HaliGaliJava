@@ -50,20 +50,41 @@ public class Main {
 
 		}
 		out.println("Starting a " + _participantCount + " player game!");
-
-		// ::: Initializing the participants. The player is participant 0.
-		_player = new Participant();
+		//
+		String playerName = providePlayerName(_inputScanner);
+		_player = new Participant(playerName);
 		_aliveParticipants.add(_player);
 		GiveParticipantInitialCards(_player, _participantCount);
 
+		ArrayList<String> cpuNames = generateCpuNames(_participantCount - 1);
 		_cpuPlayers = new ArrayList<Participant>(_participantCount - 1);
 
-		for (int i = 1; i < _participantCount; i++) {
-			Participant cpuParticipant = new Participant();
+		for (int i = 0; i < cpuNames.size(); i++) {
+			Participant cpuParticipant = new Participant(cpuNames.get(i));
 			GiveParticipantInitialCards(cpuParticipant, _participantCount);
 			_cpuPlayers.add(cpuParticipant);
 			_aliveParticipants.add(cpuParticipant);
 		}
+	}
+
+	public static ArrayList<String> generateCpuNames(int cpuCount) {
+		ArrayList<String> names = new ArrayList<>();
+		String[] possibleNames = {"BotMax", "Botana", "NeuroBot", "HaliBot", "GaliBot"};
+		Random rand = new Random();
+
+		for (int i = 0; i < cpuCount; i++) {
+			String name = possibleNames[rand.nextInt(possibleNames.length)];
+			while (names.contains(name)) {
+				name = possibleNames[rand.nextInt(possibleNames.length)];
+			}
+			names.add(name);
+		}
+		return names;
+	}
+
+	public static String providePlayerName(Scanner scanner) {
+		System.out.println("Enter your name:");
+		return scanner.nextLine();
 	}
 
 	private static void GiveParticipantInitialCards(Participant participant, int participantCount) {
@@ -94,8 +115,7 @@ public class Main {
 			if (_aliveParticipants.size() == 1) {
 				gameIsDone = true;
 				Participant winner = _aliveParticipants.get(0);
-				String winnerString = (_aliveParticipants.get(0) == _player) ? "Player" : "CPU";
-				System.out.println(winnerString + "Wins!");
+				System.out.println(winner.name + "Wins!");
 			}
 
 			// ::: The idea
@@ -137,7 +157,7 @@ public class Main {
 			}
 		}
 
-		System.out.println(((winner == _player) ? "Player" : "CPU") + " grabbed all the table cards!");
+		System.out.println(winner.name + " grabbed all the table cards!");
 
 		KickOutDeadParticipants();
 	}
@@ -156,8 +176,7 @@ public class Main {
 		_cpuPlayers.removeIf(cpu -> !cpu.HasACard());
 
 		for (Participant p : eliminated) {
-			String who = (p == _player) ? "Player" : "CPU";
-			System.out.println(who + " has been eliminated.");
+			System.out.println(p.name + " has been eliminated.");
 		}
 	}
 
@@ -166,14 +185,14 @@ public class Main {
 		// ::: Player Turn
 		if (currentPlayerTurn == 0) {
 			// ::: Wait for player to press enter, then place card.
-			System.out.print("Player Turn! (Press enter to place a card.");
+			System.out.print("Your Turn! (Press enter to place a card.)");
 			SleepHack(1000);
 
 			_inputScanner.nextLine();
 			player.PutCardOnTable();
 			// TODO: Skip turn if you have no cards.
 
-			System.out.println("Player put " + player.TableCards.peek().fruitType +
+			System.out.println(_player.name + " put " + player.TableCards.peek().fruitType +
 					" " + player.TableCards.peek().count +
 					" on the table.");
 
@@ -181,13 +200,12 @@ public class Main {
 
 		// ::: CPU Turn
 		else {
-			System.out.println("CPU " + (currentPlayerTurn) + "'s turn!");
-			SleepHack(1000);
-
 			Participant activeCpu = _cpuPlayers.get(currentPlayerTurn - 1);
+			System.out.println(activeCpu.name + "'s turn!");
+			SleepHack(1000);
 			activeCpu.PutCardOnTable();
 			HaliCard cpuNewCard = activeCpu.TableCards.peek();
-			out.println("CPU " + (currentPlayerTurn) + " put " + cpuNewCard.fruitType + " " + cpuNewCard.count
+			out.println(activeCpu.name + " put " + cpuNewCard.fruitType + " " + cpuNewCard.count
 					+ " on the table.");
 		}
 	}
@@ -202,7 +220,7 @@ public class Main {
 		}
 
 		if (pCard != null) {
-			out.println("Player: " + pCard.fruitType + " " + pCard.count);
+			out.println(_player.name + ": " + pCard.fruitType + " " + pCard.count);
 		}
 
 		for (int i = 0; i < _participantCount - 1; i++) {
@@ -211,7 +229,7 @@ public class Main {
 				cCard = _cpuPlayers.get(i).TableCards.peek();
 			}
 			if (cCard != null) {
-				out.println("CPU " + (i + 1) + ": " + cCard.fruitType + " " + cCard.count);
+				out.println(_cpuPlayers.get(i).name + ": " + cCard.fruitType + " " + cCard.count);
 			}
 		}
 
@@ -254,7 +272,7 @@ public class Main {
 					if (System.in.available() > 0) {
 						synchronized (_inputScanner) {
 							_inputScanner.nextLine();
-							System.out.println("Player smacked the bell incorrectly!");
+							System.out.println("You smacked the bell incorrectly!");
 							HandleWrongBellSmack(_player);
 							return;
 						}
@@ -270,7 +288,7 @@ public class Main {
 			if (cpuSmacksBell) {
 				// ::: Retroactively deciding which CPU smacked the bell :)
 				int bellSmackerIndex = new Random().nextInt(0, _participantCount - 1);
-				out.println("Cpu " + (bellSmackerIndex + 1) + " messed up!");
+				out.println(_cpuPlayers.get(bellSmackerIndex).name + " messed up!");
 				HandleWrongBellSmack(_cpuPlayers.get(bellSmackerIndex));
 			}
 		}
@@ -398,7 +416,7 @@ public class Main {
 	}
 
 	private static void HandleCorrectBellSmack(Participant winner) {
-		System.out.println(((winner == _player) ? "Player" : "CPU") + " smacked the bell correctly!");
+		System.out.println(winner.name + " smacked the bell correctly!");
 		GrabAllTableCards(winner);
 	}
 }
