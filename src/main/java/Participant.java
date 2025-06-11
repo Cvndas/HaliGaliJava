@@ -1,4 +1,3 @@
-package main.java;
 
 import java.util.ArrayDeque;
 import java.util.Stack;
