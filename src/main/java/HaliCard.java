@@ -1,3 +1,4 @@
+
 public class HaliCard {
 
     public HaliCard(FruitType fruitType, int count) {

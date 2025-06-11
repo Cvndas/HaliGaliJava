@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="HandleCorrectBellSmack_BasicTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-11T22:14:21.180Z" hostname="MacBook-Air-van-Amira-3.local" time="0.02">
+  <properties/>
+  <testcase name="increasesCorrectBellCount_WhenHandleCorrectBellSmackCalled()" classname="HandleCorrectBellSmack_BasicTest" time="0.02"/>
+  <system-out><![CDATA[Amira smacked the bell successfully!
+Amira grabbed all the table cards!
+Botana has been eliminated.
+HaliBot has been eliminated.
+Amira now has 2 cards.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
