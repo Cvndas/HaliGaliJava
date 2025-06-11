@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Participant.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HaliGaliJava</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Participant.java</span></div><h1>Participant.java</h1><pre class="source lang-java linenums">import java.util.ArrayDeque;
+import java.util.Stack;
+
+public class Participant {
+
+	// ::: Front of queue is the top of the stack (where cards are taken), back is the bottom (where cards are added)
+	public String name;
+<span class="fc" id="L8">	public int correctBellCount = 0;</span>
+<span class="fc" id="L9">	public int maxInventorySize = 0;</span>
+	private ArrayDeque&lt;HaliCard&gt; _handCards;
+
+
+
+
+
+<span class="fc" id="L16">	public Participant(String name) {</span>
+<span class="fc" id="L17">		this.name = name;</span>
+<span class="fc" id="L18">		_handCards = new ArrayDeque&lt;&gt;();</span>
+<span class="fc" id="L19">		TableCards = new Stack&lt;&gt;();</span>
+<span class="fc" id="L20">	}</span>
+
+
+
+
+
+	public int getHandCardSize() {
+<span class="fc" id="L27">		return _handCards.size();</span>
+	}
+
+
+
+
+
+	public Stack&lt;HaliCard&gt; TableCards;
+
+
+
+
+
+	public void AddCard_ToBottomOfHands(HaliCard card) {
+<span class="fc" id="L41">		_handCards.addLast(card);</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">		if (_handCards.size() &gt; maxInventorySize) {</span>
+<span class="fc" id="L43">			maxInventorySize = _handCards.size();</span>
+		}
+<span class="fc" id="L45">	}</span>
+
+
+
+
+
+	// Returns null if there was no card.
+	public HaliCard RemoveCard_FromHandTop() {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">		if (_handCards.isEmpty()) {</span>
+<span class="nc" id="L54">			return null;</span>
+		}
+
+<span class="nc" id="L57">		return _handCards.removeFirst();</span>
+	}
+
+
+
+
+
+	public boolean HasACard() {
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		return !_handCards.isEmpty();</span>
+	}
+
+
+
+
+
+	public void PutCardOnTable() {
+<span class="nc" id="L73">		HaliCard card = RemoveCard_FromHandTop();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		if (card == null) {</span>
+<span class="nc" id="L75">			return;</span>
+		}
+<span class="nc" id="L77">		TableCards.push(card);</span>
+<span class="nc" id="L78">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -30,3 +30,4 @@ jacocoTestReport {
         csv.required = false
     }
 }
+
