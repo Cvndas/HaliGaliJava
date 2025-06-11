@@ -1,5 +1,3 @@
-package main.java;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
@@ -13,19 +11,19 @@ import java.io.IOException;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-	private static ArrayList<Participant> _allCpuParticipants;
+	public static ArrayList<Participant> _allCpuParticipants;
 
 	// Variable containing ALL alive participants, including the player
-	private static ArrayList<Participant> _aliveParticipants;
+	public static ArrayList<Participant> _aliveParticipants;
 
 	// Variable storing only the CPU participants who are alive, excluding the player.
-	private static ArrayList<Participant> _aliveCpuParticipants;
-	private static ArrayList<Participant> _deadParticipants;
-	private static ArrayList<Participant> _allParticipants;
-	private static Participant _player;
-	private static HaliDeck _deck;
-	private static Scanner _inputScanner;
-	private static int _participantCount;
+	public static ArrayList<Participant> _aliveCpuParticipants;
+	public static ArrayList<Participant> _deadParticipants;
+	public static ArrayList<Participant> _allParticipants;
+	public static Participant _player;
+	public static HaliDeck _deck;
+	public static Scanner _inputScanner;
+	public static int _participantCount;
 	public static final int CARDS_IN_DECK = 56;
 	private static final Object bellLock = new Object();
 	private static volatile boolean userSmackedBell = false;
@@ -229,7 +227,7 @@ public class Main {
 
 	// To be called when a player smacks the bell and there are precisely 5 fruits
 	// of the same type on the table.
-	private static void GrabAllTableCards(Participant winner) {
+	public static void GrabAllTableCards(Participant winner) {
 		for (Participant p : _aliveParticipants) {
 			while (!p.TableCards.isEmpty()) {
 				HaliCard card = p.TableCards.pop();
