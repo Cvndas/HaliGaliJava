@@ -10,10 +10,10 @@ public class Main {
 
 	private static ArrayList<Participant> _cpuPlayers;
 	private static ArrayList<Participant> _aliveParticipants;
-	private static ArrayList<Participant> _allParticipants;
+	public static ArrayList<Participant> _allParticipants;
 	private static Participant _player;
 	private static HaliDeck _deck;
-	private static Scanner _inputScanner;
+	public static Scanner _inputScanner;
 	private static int _participantCount;
 	public static final int CARDS_IN_DECK = 56;
 	private static final Object bellLock = new Object();
@@ -183,7 +183,7 @@ public class Main {
 		}
 	}
 
-	private static void PlayEndScreen(Participant winner) {
+	public static void PlayEndScreen(Participant winner) {
 		System.out.println("\n===============================");
 		System.out.println("         GAME OVER!");
 		System.out.println("===============================");
