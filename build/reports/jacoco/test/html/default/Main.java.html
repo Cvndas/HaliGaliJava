@@ -574,9 +574,9 @@ import java.io.IOException;
 
 
 	private static boolean ResetGame() {
-<span class="nc" id="L577">		_allCpuParticipants.clear();</span>
-<span class="nc" id="L578">		_aliveParticipants.clear();</span>
-<span class="nc" id="L579">		_deadParticipants.clear();</span>
+<span class="fc" id="L577">		_allCpuParticipants.clear();</span>
+<span class="fc" id="L578">		_aliveParticipants.clear();</span>
+<span class="fc" id="L579">		_deadParticipants.clear();</span>
 
 //		_deck = new HaliDeck();
 //		_player = new Participant();
@@ -591,11 +591,11 @@ import java.io.IOException;
 //			_aliveParticipants.add(cpu);
 //		}
 //
-<span class="nc" id="L594">		System.out.println(&quot;\nGame has been reset!\n&quot;);</span>
+<span class="fc" id="L594">		System.out.println(&quot;\nGame has been reset!\n&quot;);</span>
 
-<span class="nc bnc" id="L596" title="All 2 branches missed.">		return (_allCpuParticipants.isEmpty() &amp;&amp;</span>
-<span class="nc bnc" id="L597" title="All 2 branches missed.">           _aliveParticipants.isEmpty() &amp;&amp;</span>
-<span class="nc bnc" id="L598" title="All 2 branches missed.">           _deadParticipants.isEmpty());</span>
+<span class="pc bpc" id="L596" title="1 of 2 branches missed.">		return (_allCpuParticipants.isEmpty() &amp;&amp;</span>
+<span class="pc bpc" id="L597" title="1 of 2 branches missed.">           _aliveParticipants.isEmpty() &amp;&amp;</span>
+<span class="pc bpc" id="L598" title="1 of 2 branches missed.">           _deadParticipants.isEmpty());</span>
 	}
 
 }
