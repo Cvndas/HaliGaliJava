@@ -12,7 +12,6 @@ public class AreFiveFruitsPresent_TestA {
 		ArrayList<Participant> aliveParticipants = new ArrayList<>() {};
 		boolean result = Main.AreFiveFruitsPresent(aliveParticipants);
 		assertFalse(result);
-		
 	}
 	
 }
