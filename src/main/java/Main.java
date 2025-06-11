@@ -480,11 +480,12 @@ public class Main {
 		return cpuThread;
 	}
 
-	public static void HandleCorrectBellSmack(Participant winner) {
+	public static int HandleCorrectBellSmack(Participant winner) {
 		System.out.println(winner.name + " smacked the bell successfully!");
 		winner.correctBellCount++;
 		GrabAllTableCards(winner);
 		out.println(winner.name + " now has " + winner.getHandCardSize() + " cards.");
+		return winner.correctBellCount;
 	}
 
 	private static void ResetGame() {

@@ -480,17 +480,18 @@ import java.io.IOException;
 <span class="nc" id="L480">		return cpuThread;</span>
 	}
 
-	public static void HandleCorrectBellSmack(Participant winner) {
+	public static int HandleCorrectBellSmack(Participant winner) {
 <span class="fc" id="L484">		System.out.println(winner.name + &quot; smacked the bell successfully!&quot;);</span>
 <span class="fc" id="L485">		winner.correctBellCount++;</span>
 <span class="fc" id="L486">		GrabAllTableCards(winner);</span>
 <span class="fc" id="L487">		out.println(winner.name + &quot; now has &quot; + winner.getHandCardSize() + &quot; cards.&quot;);</span>
-<span class="fc" id="L488">	}</span>
+<span class="fc" id="L488">		return winner.correctBellCount;</span>
+	}
 
 	private static void ResetGame() {
-<span class="nc" id="L491">		_allCpuParticipants.clear();</span>
-<span class="nc" id="L492">		_aliveParticipants.clear();</span>
-<span class="nc" id="L493">		_deadParticipants.clear();</span>
+<span class="nc" id="L492">		_allCpuParticipants.clear();</span>
+<span class="nc" id="L493">		_aliveParticipants.clear();</span>
+<span class="nc" id="L494">		_deadParticipants.clear();</span>
 
 		// _deck = new HaliDeck();
 		// _player = new Participant();
@@ -505,8 +506,8 @@ import java.io.IOException;
 		// _aliveParticipants.add(cpu);
 		// }
 		//
-<span class="nc" id="L508">		System.out.println(&quot;\nGame has been reset!\n&quot;);</span>
-<span class="nc" id="L509">	}</span>
+<span class="nc" id="L509">		System.out.println(&quot;\nGame has been reset!\n&quot;);</span>
+<span class="nc" id="L510">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
