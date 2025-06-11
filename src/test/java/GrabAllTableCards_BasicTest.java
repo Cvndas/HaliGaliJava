@@ -1,9 +1,7 @@
 import java.util.ArrayList;
-import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
 public class GrabAllTableCards_BasicTest {
@@ -28,16 +26,17 @@ public class GrabAllTableCards_BasicTest {
         Main._aliveCpuParticipants = new ArrayList<>();
         Main._deadParticipants = new ArrayList<>();
 
-        Main.GrabAllTableCards(winner);
+        Participant updatedWinner = Main.GrabAllTableCards(winner);
 
         int cards = 0;
-        while (winner.HasACard()) {
-            winner.RemoveCard_FromHandTop();
+        while (updatedWinner.HasACard()) {
+            updatedWinner.RemoveCard_FromHandTop();
             cards++;
         }
 
         assertEquals(2, cards);
         assertTrue(p1.TableCards.isEmpty());
         assertTrue(p2.TableCards.isEmpty());
+        assertEquals("Winner", updatedWinner.name);
     }
 }

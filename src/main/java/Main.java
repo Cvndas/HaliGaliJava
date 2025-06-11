@@ -227,7 +227,7 @@ public class Main {
 
 	// To be called when a player smacks the bell and there are precisely 5 fruits
 	// of the same type on the table.
-	public static void GrabAllTableCards(Participant winner) {
+	public static Participant GrabAllTableCards(Participant winner) {
 		for (Participant p : _aliveParticipants) {
 			while (!p.TableCards.isEmpty()) {
 				HaliCard card = p.TableCards.pop();
@@ -236,16 +236,14 @@ public class Main {
 		}
 
 		System.out.println(winner.name + " grabbed all the table cards!");
-
 		KickOutDeadParticipants();
+		return winner; 
 	}
 
 
 
-
-
 	// Players can only die when someone has
-	private static void KickOutDeadParticipants() {
+	public static ArrayList<Participant> KickOutDeadParticipants() {
 		ArrayList<Participant> eliminated = new ArrayList<>();
 
 		// ::: Removing participants from _aliveParticipants
@@ -264,7 +262,10 @@ public class Main {
 		for (Participant p : eliminated) {
 			System.out.println(p.name + " has been eliminated.");
 		}
+		return eliminated;
 	}
+
+
 
 
 
@@ -572,7 +573,7 @@ public class Main {
 
 
 
-	private static void ResetGame() {
+	private static boolean ResetGame() {
 		_allCpuParticipants.clear();
 		_aliveParticipants.clear();
 		_deadParticipants.clear();
@@ -591,6 +592,10 @@ public class Main {
 //		}
 //
 		System.out.println("\nGame has been reset!\n");
+
+		return (_allCpuParticipants.isEmpty() &&
+           _aliveParticipants.isEmpty() &&
+           _deadParticipants.isEmpty());
 	}
 
 }

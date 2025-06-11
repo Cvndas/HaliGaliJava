@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="GrabAllTableCards_BasicTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-11T21:43:53" hostname="Aurora" time="0.086">
+<testsuite name="GrabAllTableCards_BasicTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-11T22:05:04" hostname="Aurora" time="0.091">
   <properties/>
-  <testcase name="GrabAllTableCards_BasicTest_WinnerGetsCards()" classname="GrabAllTableCards_BasicTest" time="0.086"/>
+  <testcase name="GrabAllTableCards_BasicTest_WinnerGetsCards()" classname="GrabAllTableCards_BasicTest" time="0.091"/>
   <system-out><![CDATA[Winner grabbed all the table cards!
 P1 has been eliminated.
 P2 has been eliminated.
