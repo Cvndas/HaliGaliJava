@@ -3,8 +3,8 @@ plugins {
     id 'jacoco'
 }
 
-group 'com.example'
-version '1.0'
+group = 'com.example'
+version = '1.0'
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ test {
 }
 
 jacoco {
-    toolVersion = "0.8.10"
+    toolVersion = "0.8.13"
 }
 
 jacocoTestReport {

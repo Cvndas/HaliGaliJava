@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -333,7 +334,7 @@ public class Main {
 		userSmackedBell = false;
 		bellAlreadyHandled = false;
 		clearUserInput();
-		boolean fiveFruitsArePresent = AreFiveFruitsPresent();
+		boolean fiveFruitsArePresent = AreFiveFruitsPresent(_aliveParticipants);
 		Thread userBellSmackThread = ProcessUserBellSmacking(fiveFruitsArePresent);
 		Thread cpuBellSmackThread = ProcessCPUBellSmacking(fiveFruitsArePresent);
 
@@ -363,7 +364,9 @@ public class Main {
 		KickOutDeadParticipants();
 	}
 
-	public static boolean AreFiveFruitsPresent() {
+
+	public static boolean AreFiveFruitsPresent(ArrayList<Participant> aliveParticipants) {
+
 		// ::: Idea: Go over all alive players, and read their fruits. Check for matches
 		// of 5.
 		// Since there is such a limited amount of fruits, I hardcode it here. A more
@@ -375,7 +378,7 @@ public class Main {
 		int plumeCount = 0;
 		int limeCount = 0;
 
-		for (Participant aliveParticipant : _aliveParticipants) {
+		for (Participant aliveParticipant : aliveParticipants) {
 			HaliCard tableCard = null;
 			if (!aliveParticipant.TableCards.isEmpty()) {
 				tableCard = aliveParticipant.TableCards.peek();
