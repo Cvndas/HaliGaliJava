@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HaliGaliJava</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
+import static java.lang.System.out;
+import java.io.IOException;
+
+//TIP To &lt;b&gt;Run&lt;/b&gt; code, press &lt;shortcut actionId=&quot;Run&quot;/&gt; or
+// click the &lt;icon src=&quot;AllIcons.Actions.Execute&quot;/&gt; icon in the gutter.
+<span class="nc" id="L9">public class Main {</span>
+
+	private static ArrayList&lt;Participant&gt; _cpuPlayers;
+	private static ArrayList&lt;Participant&gt; _aliveParticipants;
+	public static ArrayList&lt;Participant&gt; _allParticipants;
+	private static Participant _player;
+	private static HaliDeck _deck;
+	public static Scanner _inputScanner;
+	private static int _participantCount;
+	public static final int CARDS_IN_DECK = 56;
+<span class="fc" id="L19">	private static final Object bellLock = new Object();</span>
+<span class="fc" id="L20">	private static volatile boolean userSmackedBell = false;</span>
+<span class="fc" id="L21">	private static volatile boolean bellAlreadyHandled = false;</span>
+
+	public static void main(String[] args) {
+<span class="nc" id="L24">		_inputScanner = new Scanner(System.in);</span>
+<span class="nc" id="L25">		InitializeGame();</span>
+<span class="nc" id="L26">		PlayGame(_player);</span>
+<span class="nc" id="L27">	}</span>
+
+	private static void InitializeGame() {
+<span class="nc" id="L30">		_deck = new HaliDeck();</span>
+<span class="nc" id="L31">		_aliveParticipants = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L32">		_allParticipants = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L34">		System.out.println(&quot;Choose a player count. Options: 2, 3, 4 &quot;);</span>
+
+<span class="nc" id="L36">		boolean playerCountIsValid = false;</span>
+<span class="nc" id="L37">		_participantCount = -1;</span>
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">		while (!playerCountIsValid) {</span>
+<span class="nc" id="L40">			_participantCount = _inputScanner.nextInt();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">			if (_inputScanner.hasNextLine()) {</span>
+<span class="nc" id="L42">				_inputScanner.nextLine();</span>
+			}
+<span class="nc bnc" id="L44" title="All 6 branches missed.">			playerCountIsValid = (_participantCount == 2) ||</span>
+					(_participantCount == 3) ||
+					(_participantCount == 4);
+<span class="nc bnc" id="L47" title="All 2 branches missed.">			if (!playerCountIsValid) {</span>
+<span class="nc" id="L48">				out.println(&quot;Invalid player count. Options: 2, 3, 4&quot;);</span>
+			}
+
+		}
+<span class="nc" id="L52">		out.println(&quot;Starting a &quot; + _participantCount + &quot; player game!&quot;);</span>
+		//
+<span class="nc" id="L54">		String playerName = providePlayerName(_inputScanner);</span>
+<span class="nc" id="L55">		_player = new Participant(playerName);</span>
+<span class="nc" id="L56">		_aliveParticipants.add(_player);</span>
+<span class="nc" id="L57">		_allParticipants.add(_player);</span>
+<span class="nc" id="L58">		GiveParticipantInitialCards(_player, _participantCount);</span>
+
+<span class="nc" id="L60">		ArrayList&lt;String&gt; cpuNames = generateCpuNames(_participantCount - 1);</span>
+<span class="nc" id="L61">		_cpuPlayers = new ArrayList&lt;Participant&gt;(_participantCount - 1);</span>
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">		for (int i = 0; i &lt; cpuNames.size(); i++) {</span>
+<span class="nc" id="L64">			Participant cpuParticipant = new Participant(cpuNames.get(i));</span>
+<span class="nc" id="L65">			GiveParticipantInitialCards(cpuParticipant, _participantCount);</span>
+<span class="nc" id="L66">			_cpuPlayers.add(cpuParticipant);</span>
+<span class="nc" id="L67">			_aliveParticipants.add(cpuParticipant);</span>
+<span class="nc" id="L68">			_allParticipants.add(cpuParticipant);</span>
+		}
+<span class="nc" id="L70">	}</span>
+
+	public static ArrayList&lt;String&gt; generateCpuNames(int cpuCount) {
+<span class="fc" id="L73">		ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L74">		String[] possibleNames = {&quot;BotMax&quot;, &quot;Botana&quot;, &quot;NeuroBot&quot;, &quot;HaliBot&quot;, &quot;GaliBot&quot;};</span>
+<span class="fc" id="L75">		Random rand = new Random();</span>
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">		for (int i = 0; i &lt; cpuCount; i++) {</span>
+<span class="fc" id="L78">			String name = possibleNames[rand.nextInt(possibleNames.length)];</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">			while (names.contains(name)) {</span>
+<span class="nc" id="L80">				name = possibleNames[rand.nextInt(possibleNames.length)];</span>
+			}
+<span class="fc" id="L82">			names.add(name);</span>
+		}
+<span class="fc" id="L84">		return names;</span>
+	}
+
+	public static String providePlayerName(Scanner scanner) {
+<span class="nc" id="L88">		System.out.println(&quot;Enter your name:&quot;);</span>
+<span class="nc" id="L89">		return scanner.nextLine();</span>
+	}
+
+	private static void GiveParticipantInitialCards(Participant participant, int participantCount) {
+<span class="nc" id="L93">		int cardsToGiveToParticipant = CARDS_IN_DECK / participantCount;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">		assert (cardsToGiveToParticipant * participantCount &lt;= CARDS_IN_DECK);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		for (int i = 0; i &lt; cardsToGiveToParticipant; i++) {</span>
+<span class="nc" id="L96">			HaliCard cardFromDeck = _deck.TakeCardFromDeck();</span>
+
+			// In initial state, there must be enough cards for everyone.
+<span class="nc bnc" id="L99" title="All 2 branches missed.">			assert (cardFromDeck != null);</span>
+<span class="nc" id="L100">			participant.AddCard_ToBottomOfHands(cardFromDeck);</span>
+		}
+<span class="nc" id="L102">	}</span>
+
+	private static void PlayGame(Participant player) {
+<span class="nc" id="L105">		boolean gameIsDone = false;</span>
+
+		// ::: Player is always 0
+		// ::: Whoever starts first is random
+<span class="nc" id="L109">		int currentPlayerTurn = new Random().nextInt(_participantCount);</span>
+
+		// TODO: Refresh the terminal, then display UI elements on the top of the screen
+		// that show the controls, every
+		// round.
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		while (!gameIsDone) {</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">			if (_aliveParticipants.size() == 1) {</span>
+<span class="nc" id="L118">				gameIsDone = true;</span>
+<span class="nc" id="L119">				Participant winner = _aliveParticipants.get(0);</span>
+				// System.out.println(winner.name + &quot;Wins!&quot;);
+<span class="nc" id="L121">				PlayEndScreen(winner);</span>
+			}
+
+			// ::: The idea
+			/*
+			 * Each round consists of two parts:
+			 * 1. Waiting for the current player to place a card
+			 * 
+			 * 2. If there is a combination for 5 fruits of the same type, wait until
+			 * someone presses spacebar.
+			 * If there is no combination for 5 fruits of the same type, wait for 2 seconds,
+			 * then go to the next round.
+			 */
+
+<span class="nc" id="L135">			waitForPlayerCard(currentPlayerTurn, player);</span>
+<span class="nc" id="L136">			clearUserInput();</span>
+<span class="nc" id="L137">			PrintCurrentTableCards();</span>
+<span class="nc" id="L138">			waitForBell();</span>
+
+			// TODO: Kicking out dead participants should only happen upon a bell smack.
+			// This is to ensure that dead players don't have any cards laying around on the
+			// table.
+			// Draw a diagram to figure out how this should interact with currentPlayerTurn
+			// As it stands, this is wrong and bugged.
+
+<span class="nc" id="L146">			currentPlayerTurn += 1;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">			if (currentPlayerTurn &gt;= _aliveParticipants.size()) {</span>
+<span class="nc" id="L148">				currentPlayerTurn = 0;</span>
+			}
+		}
+<span class="nc" id="L151">	}</span>
+
+	// To be called when a player smacks the bell and there are precisely 5 fruits
+	// of the same type on the table.
+	private static void GrabAllTableCards(Participant winner) {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">		for (Participant p : _aliveParticipants) {</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">			while (!p.TableCards.isEmpty()) {</span>
+<span class="nc" id="L158">				HaliCard card = p.TableCards.pop();</span>
+<span class="nc" id="L159">				winner.AddCard_ToBottomOfHands(card);</span>
+<span class="nc" id="L160">			}</span>
+<span class="nc" id="L161">		}</span>
+
+<span class="nc" id="L163">		System.out.println(winner.name + &quot; grabbed all the table cards!&quot;);</span>
+
+<span class="nc" id="L165">		KickOutDeadParticipants();</span>
+<span class="nc" id="L166">	}</span>
+
+	// Players can only die when someone has
+	private static void KickOutDeadParticipants() {
+<span class="nc" id="L170">		ArrayList&lt;Participant&gt; eliminated = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L172" title="All 2 branches missed.">		for (Participant p : _aliveParticipants) {</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">			if (!p.HasACard()) {</span>
+<span class="nc" id="L174">				eliminated.add(p);</span>
+			}
+<span class="nc" id="L176">		}</span>
+
+<span class="nc" id="L178">		_aliveParticipants.removeAll(eliminated);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">		_cpuPlayers.removeIf(cpu -&gt; !cpu.HasACard());</span>
+
+<span class="nc bnc" id="L181" title="All 2 branches missed.">		for (Participant p : eliminated) {</span>
+<span class="nc" id="L182">			System.out.println(p.name + &quot; has been eliminated.&quot;);</span>
+<span class="nc" id="L183">		}</span>
+<span class="nc" id="L184">	}</span>
+
+	public static void PlayEndScreen(Participant winner) {
+<span class="nc" id="L187">		System.out.println(&quot;\n===============================&quot;);</span>
+<span class="nc" id="L188">		System.out.println(&quot;         GAME OVER!&quot;);</span>
+<span class="nc" id="L189">		System.out.println(&quot;===============================&quot;);</span>
+<span class="nc" id="L190">		System.out.println(&quot;Winner: &quot; + winner.name);</span>
+
+<span class="nc" id="L192">		GetStatistics();</span>
+
+<span class="nc" id="L194">		System.out.println(&quot;Would you like to play again? (y/n)&quot;);</span>
+<span class="nc" id="L195">		String answer = _inputScanner.nextLine().trim().toLowerCase();</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">		if (answer.equals(&quot;y&quot;)) {</span>
+<span class="nc" id="L197">			InitializeGame();</span>
+<span class="nc" id="L198">			PlayGame(_player);</span>
+		} else {
+<span class="nc" id="L200">			System.out.println(&quot;Goodbye!&quot;);</span>
+<span class="nc" id="L201">			System.exit(0);</span>
+		}
+<span class="nc" id="L203">	}</span>
+	
+	private static void GetStatistics() {
+<span class="nc" id="L206">			System.out.println(&quot;\n--- Game Statistics ---&quot;);</span>
+
+<span class="nc bnc" id="L208" title="All 2 branches missed.">			for (Participant p : _allParticipants) {</span>
+<span class="nc" id="L209">				System.out.println(&quot;Player: &quot; + p.name);</span>
+<span class="nc" id="L210">				System.out.println(&quot;  Correct Bell Presses: &quot; + p.correctBellCount);</span>
+<span class="nc" id="L211">				System.out.println(&quot;  Max Inventory Size: &quot; + p.maxInventorySize);</span>
+<span class="nc" id="L212">				System.out.println();</span>
+<span class="nc" id="L213">			}</span>
+<span class="nc" id="L214">		}</span>
+	
+	private static void waitForPlayerCard(int currentPlayerTurn, Participant player) {
+<span class="nc" id="L217">		Participant participant = _aliveParticipants.get(currentPlayerTurn);</span>
+
+<span class="nc bnc" id="L219" title="All 2 branches missed.">		if (participant.getHandCardSize() == 0) {</span>
+<span class="nc" id="L220">			System.out.println(participant.name + &quot; has no cards and skips this turn.&quot;);</span>
+<span class="nc" id="L221">			return;</span>
+		}
+
+		// Oyuncu kendi sÄ±rasÄ±ysa
+<span class="nc bnc" id="L225" title="All 2 branches missed.">		if (participant == player) {</span>
+<span class="nc" id="L226">			System.out.print(&quot;Your Turn! (Press enter to place a card.)&quot;);</span>
+<span class="nc" id="L227">			SleepHack(1000);</span>
+<span class="nc" id="L228">			_inputScanner.nextLine();</span>
+
+<span class="nc" id="L230">			participant.PutCardOnTable();</span>
+<span class="nc" id="L231">			HaliCard card = participant.TableCards.peek();</span>
+<span class="nc" id="L232">			System.out.println(participant.name + &quot; put &quot; + card.fruitType + &quot; &quot; + card.count + &quot; on the table.&quot;);</span>
+<span class="nc" id="L233">		} </span>
+		// CPU sÄ±rasÄ±ysa
+		else {
+<span class="nc" id="L236">			System.out.println(participant.name + &quot;'s turn!&quot;);</span>
+<span class="nc" id="L237">			SleepHack(1000);</span>
+<span class="nc" id="L238">			participant.PutCardOnTable();</span>
+<span class="nc" id="L239">			HaliCard card = participant.TableCards.peek();</span>
+<span class="nc" id="L240">			out.println(participant.name + &quot; put &quot; + card.fruitType + &quot; &quot; + card.count + &quot; on the table.&quot;);</span>
+		}
+<span class="nc" id="L242">	}</span>
+
+
+
+	private static void PrintCurrentTableCards() {
+<span class="nc" id="L247">		out.println(&quot;\n---The Cards on the Table---&quot;);</span>
+
+		// ::: Reading the card data from the player and CPUs.
+<span class="nc" id="L250">		HaliCard pCard = null;</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">		if (!_player.TableCards.isEmpty()) {</span>
+<span class="nc" id="L252">			pCard = _player.TableCards.peek();</span>
+		}
+
+<span class="nc bnc" id="L255" title="All 2 branches missed.">		if (pCard != null) {</span>
+<span class="nc" id="L256">			out.println(_player.name + &quot;: &quot; + pCard.fruitType + &quot; &quot; + pCard.count);</span>
+		}
+
+		// for (int i = 0; i &lt; _participantCount - 1; i++) {
+<span class="nc bnc" id="L260" title="All 2 branches missed.">		for (int i = 0; i &lt; _cpuPlayers.size(); i++) {</span>
+<span class="nc" id="L261">			HaliCard cCard = null;</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">			if (!_cpuPlayers.get(i).TableCards.isEmpty()) {</span>
+<span class="nc" id="L263">				cCard = _cpuPlayers.get(i).TableCards.peek();</span>
+			}
+<span class="nc bnc" id="L265" title="All 2 branches missed.">			if (cCard != null) {</span>
+<span class="nc" id="L266">				out.println(_cpuPlayers.get(i).name + &quot;: &quot; + cCard.fruitType + &quot; &quot; + cCard.count);</span>
+			}
+		}
+
+<span class="nc" id="L270">		out.println(&quot;---\n&quot;);</span>
+<span class="nc" id="L271">	}</span>
+
+	private static void SleepHack(int msSleepTime) {
+		try {
+<span class="nc" id="L275">			Thread.sleep(msSleepTime);</span>
+
+<span class="nc" id="L277">		} catch (Exception e) {</span>
+<span class="nc" id="L278">			out.println(&quot;This code has no business being triggered. The game is broken&quot;);</span>
+<span class="nc" id="L279">		}</span>
+<span class="nc" id="L280">	}</span>
+
+	/// Seeing who will smack the bell first within a 3 second window.
+	private static void waitForBell() {
+<span class="nc" id="L284">		boolean exactlyFiveOfFruitArePresent = AreFiveFruitsPresent();</span>
+
+		// TODO: Multithreading, or some other solution, to solve the problem of
+		// the player needing to be able to press Enter to smack the bell,
+		// while at any time during the 3 second window, the CPUs can do it too.
+
+<span class="nc bnc" id="L290" title="All 2 branches missed.">		if (AreFiveFruitsPresent()) {</span>
+			// ::: Bell is valid. Waiting until one of the participants smacks the bell.
+<span class="nc bnc" id="L292" title="All 2 branches missed.">			if (AreFiveFruitsPresent()) {</span>
+<span class="nc" id="L293">				userSmackedBell = false;</span>
+<span class="nc" id="L294">				bellAlreadyHandled = false;</span>
+<span class="nc" id="L295">				ProcessUserBellSmacking();</span>
+<span class="nc" id="L296">				ProcessCPUBellSmacking();</span>
+<span class="nc" id="L297">				SleepHack(3000);</span>
+			}
+		}
+		else
+		{
+			// ::: Give user some time to smack invalidly
+<span class="nc" id="L303">			long startTime = System.currentTimeMillis();</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">			while (System.currentTimeMillis() - startTime &lt; 1000) {</span>
+				try {
+<span class="nc bnc" id="L306" title="All 2 branches missed.">					if (System.in.available() &gt; 0) {</span>
+<span class="nc" id="L307">						synchronized (_inputScanner) {</span>
+<span class="nc" id="L308">							_inputScanner.nextLine();</span>
+<span class="nc" id="L309">							System.out.println(&quot;You smacked the bell incorrectly!&quot;);</span>
+<span class="nc" id="L310">							HandleWrongBellSmack(_player);</span>
+<span class="nc" id="L311">							return;</span>
+						}
+					}
+<span class="nc" id="L314">				} catch (IOException e) {</span>
+<span class="nc" id="L315">					System.out.println(&quot;Input check failed.&quot;);</span>
+<span class="nc" id="L316">				}</span>
+<span class="nc" id="L317">				SleepHack(50);</span>
+			}
+			// ::: Bell is invalid. Computing a chance that a CPU smacks the bell on
+			// accident anyway.
+<span class="nc bnc" id="L321" title="All 2 branches missed.">			boolean cpuSmacksBell = new Random().nextInt(0, 10) == 0; // 10% chance that a cpu smacks bell.</span>
+<span class="nc bnc" id="L322" title="All 2 branches missed.">			if (cpuSmacksBell) {</span>
+				// ::: Retroactively deciding which CPU smacked the bell :)
+<span class="nc bnc" id="L324" title="All 2 branches missed.">				if (_cpuPlayers.size() &gt; 0) {</span>
+<span class="nc" id="L325">					int bellSmackerIndex = new Random().nextInt(_cpuPlayers.size());</span>
+<span class="nc" id="L326">					Participant cpuWhoMessedUp = _cpuPlayers.get(bellSmackerIndex);</span>
+<span class="nc" id="L327">					out.println(cpuWhoMessedUp.name + &quot; messed up!&quot;);</span>
+<span class="nc" id="L328">					HandleWrongBellSmack(cpuWhoMessedUp);</span>
+				}
+			}
+		}
+
+		// TODO: Remove this while implementing the function properly.
+<span class="nc" id="L334">		SleepHack(3000);</span>
+<span class="nc" id="L335">	}</span>
+
+	private static void HandleWrongBellSmack(Participant victim) {
+<span class="nc bnc" id="L338" title="All 2 branches missed.">		for (Participant nonVictim : _aliveParticipants) {</span>
+<span class="nc bnc" id="L339" title="All 2 branches missed.">			if (nonVictim != victim) {</span>
+<span class="nc" id="L340">				HaliCard takenCard = victim.RemoveCard_FromHandTop();</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">				if (takenCard == null) {</span>
+<span class="nc" id="L342">					break;</span>
+				}
+<span class="nc" id="L344">				nonVictim.AddCard_ToBottomOfHands(takenCard);</span>
+<span class="nc" id="L345">				out.println(&quot;A card was given to another player.&quot;);</span>
+			}
+<span class="nc" id="L347">		}</span>
+<span class="nc" id="L348">		KickOutDeadParticipants();</span>
+<span class="nc" id="L349">	}</span>
+
+	public static boolean AreFiveFruitsPresent() {
+		// ::: Idea: Go over all alive players, and read their fruits. Check for matches
+		// of 5.
+		// Since there is such a limited amount of fruits, I hardcode it here. A more
+		// dynamic approach with
+		// a hashtable would be suited if there was a significantly greater variety of
+		// card types.
+<span class="nc" id="L358">		int bananaCount = 0;</span>
+<span class="nc" id="L359">		int strawberryCount = 0;</span>
+<span class="nc" id="L360">		int plumeCount = 0;</span>
+<span class="nc" id="L361">		int limeCount = 0;</span>
+
+<span class="nc bnc" id="L363" title="All 2 branches missed.">		for (Participant aliveParticipant : _aliveParticipants) {</span>
+<span class="nc" id="L364">			HaliCard tableCard = null;</span>
+<span class="nc bnc" id="L365" title="All 2 branches missed.">			if (!aliveParticipant.TableCards.isEmpty()) {</span>
+<span class="nc" id="L366">				tableCard = aliveParticipant.TableCards.peek();</span>
+			}
+<span class="nc bnc" id="L368" title="All 2 branches missed.">			if (tableCard == null) {</span>
+<span class="nc" id="L369">				continue;</span>
+			}
+
+<span class="nc bnc" id="L372" title="All 5 branches missed.">			switch (tableCard.fruitType) {</span>
+				case Banana:
+<span class="nc" id="L374">					bananaCount += tableCard.count;</span>
+<span class="nc" id="L375">					break;</span>
+				case Lime:
+<span class="nc" id="L377">					limeCount += tableCard.count;</span>
+<span class="nc" id="L378">					break;</span>
+				case Strawberry:
+<span class="nc" id="L380">					strawberryCount += tableCard.count;</span>
+<span class="nc" id="L381">					break;</span>
+				case Plum:
+<span class="nc" id="L383">					plumeCount += tableCard.count;</span>
+					break;
+			}
+<span class="nc" id="L386">		}</span>
+<span class="nc bnc" id="L387" title="All 8 branches missed.">		return (bananaCount == 5 ||</span>
+				strawberryCount == 5 ||
+				plumeCount == 5 ||
+				limeCount == 5);
+	}
+
+	private static void clearUserInput() {
+		try {
+<span class="nc bnc" id="L395" title="All 2 branches missed.">			while (System.in.available() &gt; 0) {</span>
+<span class="nc" id="L396">				out.println(&quot;Before eating next line&quot;);</span>
+<span class="nc" id="L397">				_inputScanner.nextLine();</span>
+<span class="nc" id="L398">				out.println(&quot;After eating next line&quot;);</span>
+			}
+<span class="nc" id="L400">		} catch (Exception e) {</span>
+<span class="nc" id="L401">			out.println(&quot;Checking if there was userinput threw exception: &quot; + e.getMessage());</span>
+<span class="nc" id="L402">		}</span>
+<span class="nc" id="L403">	}</span>
+
+	private static void ProcessUserBellSmacking() {
+<span class="nc" id="L406">		Thread userThread = new Thread(() -&gt; {</span>
+<span class="nc" id="L407">			long startTime = System.currentTimeMillis();</span>
+<span class="nc" id="L408">			System.out.println(&quot;Smack the bell! (press Enter)&quot;);</span>
+<span class="nc bnc" id="L409" title="All 4 branches missed.">			while (System.currentTimeMillis() - startTime &lt; 3000 &amp;&amp; !bellAlreadyHandled) {</span>
+				try {
+<span class="nc bnc" id="L411" title="All 2 branches missed.">					if (System.in.available() &gt; 0) {</span>
+<span class="nc" id="L412">						synchronized (_inputScanner) {</span>
+<span class="nc" id="L413">							_inputScanner.nextLine();</span>
+<span class="nc" id="L414">							synchronized (bellLock) {</span>
+<span class="nc bnc" id="L415" title="All 2 branches missed.">								if (!bellAlreadyHandled) {</span>
+<span class="nc" id="L416">									userSmackedBell = true;</span>
+<span class="nc" id="L417">									bellAlreadyHandled = true;</span>
+<span class="nc" id="L418">									HandleCorrectBellSmack(_player);</span>
+								}
+<span class="nc" id="L420">							}</span>
+<span class="nc" id="L421">							break;</span>
+						}
+					}
+<span class="nc" id="L424">				} catch (IOException e) {</span>
+<span class="nc" id="L425">					System.out.println(&quot;Error checking input availability&quot;);</span>
+<span class="nc" id="L426">				}</span>
+			}
+<span class="nc" id="L428">		});</span>
+<span class="nc" id="L429">		userThread.start();</span>
+<span class="nc" id="L430">	}</span>
+
+	private static void ProcessCPUBellSmacking() {
+<span class="nc" id="L433">		Thread cpuThread = new Thread(() -&gt; {</span>
+			try {
+<span class="nc" id="L435">				Thread.sleep(new Random().nextInt(3000));</span>
+<span class="nc" id="L436">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L437">				return;</span>
+<span class="nc" id="L438">			}</span>
+			// 50 % chance it will smack
+<span class="nc bnc" id="L440" title="All 2 branches missed.">			if (new Random().nextBoolean()) {</span>
+<span class="nc" id="L441">				synchronized (bellLock) {</span>
+<span class="nc bnc" id="L442" title="All 2 branches missed.">					if (!bellAlreadyHandled) {</span>
+<span class="nc" id="L443">						Participant cpuWhoSmacked = _cpuPlayers.get(new Random().nextInt(_cpuPlayers.size()));</span>
+<span class="nc" id="L444">						System.out.println(&quot;CPU smacked the bell!&quot;);</span>
+<span class="nc" id="L445">						bellAlreadyHandled = true;</span>
+<span class="nc" id="L446">						HandleCorrectBellSmack(cpuWhoSmacked);</span>
+					}
+<span class="nc" id="L448">				}</span>
+			} else {
+<span class="nc" id="L450">				System.out.println(&quot;CPU messed up hope you didnt.&quot;);</span>
+			}
+<span class="nc" id="L452">		});</span>
+<span class="nc" id="L453">		cpuThread.start();</span>
+<span class="nc" id="L454">	}</span>
+
+	private static void HandleCorrectBellSmack(Participant winner) {
+<span class="nc" id="L457">		System.out.println(winner.name + &quot; smacked the bell correctly!&quot;);</span>
+<span class="nc" id="L458">		winner.correctBellCount++;</span>
+<span class="nc" id="L459">		GrabAllTableCards(winner);</span>
+<span class="nc" id="L460">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
