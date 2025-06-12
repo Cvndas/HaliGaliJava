@@ -10,18 +10,18 @@ Programming language: Java
 
 ### Tests
 
-AreFiveFruitsPresent_TestA.java
-GrabAllTableCards_BasicTest.java
-ProcessCPUBellSmacking_BasicTest.java
-GenerateCpuNames.java
+- AreFiveFruitsPresent_TestA.java
+- GrabAllTableCards_BasicTest.java
+- ProcessCPUBellSmacking_BasicTest.java
+- GenerateCpuNames.java
 
-![Initial Coverage Report](images/tests.jpg)
+![Initial Coverage Report](images/testReport.jpg)
 
 ### Coverage of initial tests
 
 We used jacoco and gradle to do our initial tests. We created a build.gradle file that ensured we're using jacoco and ran tests using the command line ./gradlew clean test jacocoTestReport. To know if the tests worked, we would navigate to the index.html file found in HaliGaliJava/build/reports/tests/test and to see our coverage so far we would navigate to the index.html file found in HaliGaliJava/build/reports/jacoco/test/html.
 
-![Initial Coverage Report](images/initial_coverage2.jpg)
+![Initial Coverage Report](images/initialCoverage.jpg)
 
 ## Coverage improvement
 
@@ -97,7 +97,7 @@ Repeat for other tests...
 
 ### Overall
 
-![Initial Coverage Report](images/initial_coverage2.jpg)
+![Initial Coverage Report](images/initialCoverage.jpg)
 
 TODO: Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by the group
 
