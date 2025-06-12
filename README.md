@@ -152,7 +152,7 @@ Overall, total project coverage improved from **23% to 27%**, confirming that th
 This test simulates a full play sequence, involving both CPU and user actions, within the main game loop.
 It significantly improved the instruction coverage of Main.java from 23% to 31%, and branch coverage from 16% to 26%.
 Previously untested paths—like turn progression, victory checks, and participant updates—are now executed.
-In total, the project gained 3% coverage, and 35 instructions and 1 method were newly covered.
+In total, the project gained 7% coverage, and 86 instructions were newly covered.
 
 ---
 
