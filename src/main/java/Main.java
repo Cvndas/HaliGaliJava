@@ -1,3 +1,5 @@
+import com.sun.source.tree.CatchTree;
+
 import static java.lang.System.out;
 
 import java.util.ArrayList;
@@ -497,7 +499,7 @@ public class Main {
 					if (_deadParticipants.contains(_player)) {
 						break;
 					}
-					if (testScanner.hasNextLine()) {
+					if (inStream.available() > 0) {
 						testScanner.nextLine();
 						synchronized (bellLock) {
 							if (!bellAlreadyHandled) {
@@ -513,7 +515,12 @@ public class Main {
 						break;
 					}
 				}
-			} finally {
+					
+			} 
+			catch ( Exception e) {
+				
+			}finally {
+				out.println("Exiting player thread");
 //				testScanner.close();
 			}
 		});
