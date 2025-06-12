@@ -442,7 +442,7 @@ public class Main {
 					}
 				}
 			} finally {
-				testScanner.close();
+//				testScanner.close();
 			}
 		});
 		userThread.start();
