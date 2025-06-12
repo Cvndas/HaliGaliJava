@@ -157,7 +157,7 @@ Overall, total project coverage improved from **23% to 27%**, confirming that th
 
 **Improvement:**
 This test simulates a full play sequence, involving both CPU and user actions, within the main game loop.
-It significantly improved the instruction coverage of Main.java from 23% to 31%, and branch coverage from 16% to 26%.
+It improved the instruction coverage of Main.java from 23% to 31%, and branch coverage from 16% to 26%.
 Previously untested paths—like turn progression, victory checks, and participant updates—are now executed.
 In total, the project gained 7% coverage, and 86 instructions were newly covered.
 
@@ -176,6 +176,7 @@ In total, the project gained 7% coverage, and 86 instructions were newly covered
   ![New coverage](images/Sila_Coverage_Test2.png)
 
 **Improvement:**
+This test improves coverage by 1%. It does so by maximizing the coverage of the providePlayerName() function. This test was created by analyzing how the function works. It tested the case when the input is empty. 
 
 ### Test 2: `testGenerateCpuNames_CorrectCountAndUniqueNames`
 **Commit:**  
@@ -188,6 +189,8 @@ In total, the project gained 7% coverage, and 86 instructions were newly covered
   ![New coverage](images/Sila_LastMissing.png)
 
 **Improvement:**
+
+The test testGenerateCpuNames_CorrectCountAndUniqueNames contributes to a 3% increase in overall code coverage. This improvement is achieved by thoroughly exercising the GenerateCpuNames() function, ensuring that it is invoked with a representative set of parameters and that both the correctness and uniqueness of the generated CPU names are verified. As a result, edge cases and previously untested branches within the function are now covered, enhancing the robustness and reliability of the codebase.
 
 ### Overall
 
