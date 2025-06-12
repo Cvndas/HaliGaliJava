@@ -72,42 +72,45 @@ Test 1:
 https://github.com/Cvndas/HaliGaliJava/commit/72dba3295b935f31c7992ba60c3e952aac724002
 
 Old coverage results
-![Detailed Initial Coverage Report](images/detailed_initial.png)
+![Detailed Initial Coverage Report](images/initialCoverage.jpg)
 
-New coverage results
-![Test 1 improvement](images/test_1_improvement.png)
+The coverage results with the modified test 1
+![Test 1 improvement](images/Thadeus_CoverageWith_Test1.png)
 
-Missed instructions was improved from 35% to 75%, and missed branches was improved
-from 26% to 57%
+Replacing the test from the batch of initial tests with the new test improved
+coverage by 5%
 
 I changed initial test to have a null card and 4 bananas. The coverage is improved because the "continue" path is being
-hit by having a player  that does not have a card.
+hit by having a player  that does not have a card, as well as hitting other parts of the
+function.
+
+
 
 Test 2:
 Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results:
-![Test 1 improvement](images/test_1_improvement.png)
+![Test 1 improvement](images/initialCoverage.jpg)
 
-New coverage results:
-![Test 2 improvement](images/Thadeus_Test_2_improvement.png)
+Coverage results with test 2 added
+![Test 2 improvement](images/Thadeus_CoverageWith_Test2.png)
 
-This test improves the coverage for the same function by 25% on missed instructions, and 31% on missed branches.
-This is because it tests for various different fruits. 
+This test improves coverage by 5%. It does so by using a variety
+of fruit types, hitting more lines within the switch statement. 
 
 
 
-TODO: Test 3
+Test 3
 
 Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results
-![Test 2 improvement](images/Thadeus_Test_2_improvement.png)
+![Test 2 improvement](images/initialCoverage.jpg)
 
 New coverage results:
-![Test 3 improvement](images/Thadeus_Test_3_improvement.png)
+![Test 3 improvement](images/Thadeus_CoverageWith_Test3.png)
 
-The new test improves missed instructions on ProgressTurnIndex() by 100%, and missed branches by 87%.
+This test improves coverage by 9%. It does so by maximizing the coverage of the ProgressTurnIndex() function.
 This test was created by analyzing how the function works, and observing that the following must hold
 for coverage to be maximum:
 		- currentPlayerTurn input must be equal to allCpuParticipants.size()
@@ -115,6 +118,8 @@ for coverage to be maximum:
 		- The next CPU must be dead
 		- The CPU After the dead cpu is not dead.
 The inputs within the test are crafted to match these properties.
+
+
 
 ## Amira
 
