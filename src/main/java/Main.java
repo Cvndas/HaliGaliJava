@@ -150,38 +150,45 @@ public class Main {
 			clearUserInput();
 			PrintCurrentTableCards();
 			waitForBell();
-
-			currentPlayerTurn = ProgressTurnIndex(currentPlayerTurn);
+      currentPlayerTurn = ProgressTurnIndex(
+					  currentPlayerTurn,
+					  _allCpuParticipants,
+					  _deadParticipants,
+					  _player);
 		}
 
 		return currentPlayerTurn;
 	}
 
-	// Returns the new currentPlayerTurn value, to be used in the next iteration of
-	// the game loop.
-	public static int ProgressTurnIndex(int currentPlayerTurn) {
+	
+  
+  	// Returns the new currentPlayerTurn value, to be used in the next iteration of the game loop.
+	public static int ProgressTurnIndex(
+			  int currentPlayerTurn, 
+			  ArrayList<Participant> allCpuParticipants,
+			  ArrayList<Participant> deadParticipants,
+			  Participant player) {
 		// ::: Progresing the turn.
 		boolean validTurnSet = false;
 		while (!validTurnSet) {
 			currentPlayerTurn += 1;
-			if (currentPlayerTurn > _allCpuParticipants.size()) {
+			if (currentPlayerTurn > allCpuParticipants.size()) {
 				currentPlayerTurn = 0;
 			}
 
-			boolean deadPlayerWasSet = (currentPlayerTurn == 0 && _deadParticipants.contains(_player));
+			boolean deadPlayerWasSet = (currentPlayerTurn == 0 && deadParticipants.contains(player));
 			if (deadPlayerWasSet) {
 				currentPlayerTurn += 1;
 			}
 
-			boolean deadCpuWasSet = (currentPlayerTurn != 0
-					&& _deadParticipants.contains(_allCpuParticipants.get(currentPlayerTurn - 1)));
+			boolean deadCpuWasSet = (currentPlayerTurn != 0 && deadParticipants.contains(allCpuParticipants.get(currentPlayerTurn - 1)));
 			if (!deadCpuWasSet) {
 				validTurnSet = true;
 			} else {
 				out.println("A dead cpu was set, trying again. index was" + currentPlayerTurn);
 			}
 		}
-
+		
 		return currentPlayerTurn;
 	}
 
@@ -501,3 +508,4 @@ public class Main {
 	}
 
 }
+
