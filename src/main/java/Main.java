@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -16,15 +17,17 @@ public class Main {
 	// Variable containing ALL alive participants, including the player
 	public static ArrayList<Participant> _aliveParticipants;
 
-	// Variable storing only the CPU participants who are alive, excluding the
-	// player.
+	// Variable storing only the CPU participants who are alive, excluding the player.
+
 	public static ArrayList<Participant> _aliveCpuParticipants;
 	public static ArrayList<Participant> _deadParticipants;
 	public static ArrayList<Participant> _allParticipants;
 	public static Participant _player;
-	private static HaliDeck _deck;
-	private static Scanner _inputScanner;
-	private static int _participantCount;
+
+	public static HaliDeck _deck;
+	public static Scanner _inputScanner;
+	public static int _participantCount;
+
 	public static final int CARDS_IN_DECK = 56;
 	private static final Object bellLock = new Object();
 	private static volatile boolean userSmackedBell = false;
@@ -197,7 +200,7 @@ public class Main {
 
 	// To be called when a player smacks the bell and there are precisely 5 fruits
 	// of the same type on the table.
-	private static void GrabAllTableCards(Participant winner) {
+	public static Participant GrabAllTableCards(Participant winner) {
 		for (Participant p : _aliveParticipants) {
 			while (!p.TableCards.isEmpty()) {
 				HaliCard card = p.TableCards.pop();
@@ -206,12 +209,13 @@ public class Main {
 		}
 
 		System.out.println(winner.name + " grabbed all the table cards!");
-
 		KickOutDeadParticipants();
+		return winner; 
 	}
 
+
 	// Players can only die when someone has
-	private static void KickOutDeadParticipants() {
+	public static ArrayList<Participant> KickOutDeadParticipants() {
 		ArrayList<Participant> eliminated = new ArrayList<>();
 
 		// ::: Removing participants from _aliveParticipants
@@ -230,7 +234,9 @@ public class Main {
 		for (Participant p : eliminated) {
 			System.out.println(p.name + " has been eliminated.");
 		}
+		return eliminated;
 	}
+
 
 	private static void PlayEndScreen(Participant winner) {
 		System.out.println("\n===============================");
@@ -333,7 +339,7 @@ public class Main {
 		userSmackedBell = false;
 		bellAlreadyHandled = false;
 		clearUserInput();
-		boolean fiveFruitsArePresent = AreFiveFruitsPresent();
+		boolean fiveFruitsArePresent = AreFiveFruitsPresent(_aliveParticipants);
 		Thread userBellSmackThread = ProcessUserBellSmacking(fiveFruitsArePresent);
 		Thread cpuBellSmackThread = ProcessCPUBellSmacking(fiveFruitsArePresent);
 
@@ -363,7 +369,9 @@ public class Main {
 		KickOutDeadParticipants();
 	}
 
-	public static boolean AreFiveFruitsPresent() {
+
+	public static boolean AreFiveFruitsPresent(ArrayList<Participant> aliveParticipants) {
+
 		// ::: Idea: Go over all alive players, and read their fruits. Check for matches
 		// of 5.
 		// Since there is such a limited amount of fruits, I hardcode it here. A more
@@ -375,7 +383,7 @@ public class Main {
 		int plumeCount = 0;
 		int limeCount = 0;
 
-		for (Participant aliveParticipant : _aliveParticipants) {
+		for (Participant aliveParticipant : aliveParticipants) {
 			HaliCard tableCard = null;
 			if (!aliveParticipant.TableCards.isEmpty()) {
 				tableCard = aliveParticipant.TableCards.peek();
@@ -488,7 +496,11 @@ public class Main {
 		return winner.correctBellCount;
 	}
 
-	private static void ResetGame() {
+
+
+
+	private static boolean ResetGame() {
+
 		_allCpuParticipants.clear();
 		_aliveParticipants.clear();
 		_deadParticipants.clear();
@@ -507,6 +519,10 @@ public class Main {
 		// }
 		//
 		System.out.println("\nGame has been reset!\n");
+
+		return (_allCpuParticipants.isEmpty() &&
+           _aliveParticipants.isEmpty() &&
+           _deadParticipants.isEmpty());
 	}
 
 }
