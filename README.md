@@ -31,11 +31,7 @@ We used jacoco and gradle to do our initial tests. We created a build.gradle fil
 
 Nada
 
-TODO: The following is supposed to be repeated for each group member
-
-TODO: Group member name
-
-TODO: Test 1
+Test 1: KickOutDeadParticipants_BasicTest
 
 TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
 
@@ -45,7 +41,15 @@ TODO: Provide a screenshot of the new coverage results
 
 TODO: State the coverage improvement with a number and elaborate on why the coverage is improved
 
-Repeat for other tests...
+Test 2:  InitializeGame_BasicTest
+
+TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
+
+TODO: Provide a screenshot of the old coverage results (the same as you already showed above)
+
+TODO: Provide a screenshot of the new coverage results
+
+TODO: State the coverage improvement with a number and elaborate on why the coverage is improved
 
 Thadeus
 
