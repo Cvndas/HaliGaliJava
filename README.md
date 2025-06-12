@@ -173,7 +173,7 @@ In total, the project gained 7% coverage, and 86 instructions were newly covered
 - **Old:**
   ![Old coverage](images/initialCoverage.jpg)
 - **New:**
-  ![New coverage](images/Sila_Coverage_Test2)
+  ![New coverage](images/Sila_Coverage_Test2.png)
 
 **Improvement:**
 
