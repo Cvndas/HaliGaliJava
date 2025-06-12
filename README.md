@@ -66,10 +66,11 @@ TODO: Provide a screenshot of the old coverage results (the same as you already 
 New coverage results
 ![Test 1 improvement](images/test_1_improvement.png)
 
-I changed the function to have a null card and 4 bananas. The coverage is improved because the "continue" path is being
+I changed initial test to have a null card and 4 bananas. The coverage is improved because the "continue" path is being
 hit by having a player  that does not have a card.
 
 Test 2:
+Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results:
 ![Test 1 improvement](images/test_1_improvement.png)
@@ -83,6 +84,8 @@ This is because it tests for various different fruits.
 
 
 TODO: Test 3
+
+Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results
 ![Test 2 improvement](images/Thadeus_Test_2_improvement.png)
