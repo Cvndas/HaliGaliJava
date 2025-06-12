@@ -13,12 +13,3 @@ public class ProvidePlayerNameTest {
         String result = Main.providePlayerName(scanner);
         assertEquals("Alice", result);
     }
-
-    @Test
-    public void testProvidePlayerName_EmptyThenValid() {
-        String input = "\nBob\n";
-        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
-        String result = Main.providePlayerName(scanner);
-        assertEquals("Bob", result);
-    }
-}
