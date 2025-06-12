@@ -43,7 +43,7 @@ https://github.com/Cvndas/HaliGaliJava/commit/64296da77a90f8a5ca4e927a27d378601a
 
 Initial Coverage:
 
-![Detailed Initial Coverage Report](images/detailed_initial.png)
+![Detailed Initial Coverage Report](images/initialCoverage.jpg)
 
 Post-test Coverage:
 
@@ -58,11 +58,12 @@ https://github.com/Cvndas/HaliGaliJava/commit/a030034d65208985747dee845b9f71900e
 
 Initial Coverage:
 
-![Detailed Initial Coverage Report](images/detailed_initial.png)
+![Detailed Initial Coverage Report](images/initialCoverage.jpg)
 
 Post-test Coverage:
 
 ![Nada Coverage Report](NadaRedo_Coverage_Test2.png)
+
 
 This test helped increase the coverage of InitializeGame() by about 57% because it actually ran the method with real input. I used System.setIn() to simulate typing "3" for the number of players and "PlayerName" for the name. Then I set up the scanner and called the method. The test checks if the method returns 3, meaning the input was processed correctly. By doing this, the test activated parts of the code that read input, set up players, and returned the count, which wasn’t being tested before. This test boosted the overall coverage in Main from **16% to 33%**, which is a big jump. This is because the InitializeGame() function is quite large and contains many branches.
 
