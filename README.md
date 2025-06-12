@@ -125,7 +125,7 @@ The inputs within the test are crafted to match these properties.
 
 ---
 
-### Test 2: `ProcessUserBellSmacking_BasicTest`
+### Test 1: `ProcessUserBellSmacking_BasicTest`
 
 **Commit:**  
 [View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/f985b47)
@@ -142,7 +142,7 @@ It improved coverage of the Main class from **22% to 27%**, and also increased t
 Overall, total project coverage improved from **23% to 27%**, confirming that the test successfully triggered branches that were not covered by the initial test set.
 
 ---
-### Test 3: `Playgame_BasicTest`
+### Test 2: `Playgame_BasicTest`
 
 **Commit:**
 [View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/232a57f)
@@ -199,6 +199,6 @@ Link to github repository: https://github.com/Cvndas/HaliGaliJava
 | --- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|----------------------------------------------------------------------------------------------|
 | Nada | GrabAllTableCards(), KickOutDeadParticipants(), ResetGame() https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L197C2-L231C3 https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L484C1-L496C1 | GrabAllTableCards_BasicTest    | ResetGame_BasicTest, InitializeGame_BasicTest                                                |
 | Thadeus | InitializeGame(), GiveParticipantsInitialCards(),  ProgressTurnIndex(), and various other functions from the start of the project.      https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java                                                                                        | AreFiveFruitsPresent_NoParticipants_False() | AreFiveFruitsPresent_FiveFruits_True(), AreFiveFruitsPresent_NullCardAndFourFruits_False() - This replaces my initial test - ,  ProgressTurnIndex_TwoDeadParticipants_2()|
-| Amira |[Main.java – ProcessUserBellSmacking, ProcessCPUBellSmacking & HandleCorrectBellSmack](https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L490-L562)() |  ProcessCPUBellSmacking_BasicTest ()                              |                                                                                              |
+| Amira |ProcessUserBellSmacking(), ProcessCPUBellSmacking() and HandleCorrectBellSmack() https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L490-L562 |  ProcessCPUBellSmacking_BasicTest                      |  PlayGame_BasicTest, ProcessUserBellSmacking_BasicTest                                                                                                |
 | Sıla |                                                                                                                                                                                                                                 |                                |                                                                                              |
 
