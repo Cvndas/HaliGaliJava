@@ -69,13 +69,16 @@ This test helped increase the coverage of InitializeGame() by about 57% because 
 ### Thadeus
 
 Test 1:
+https://github.com/Cvndas/HaliGaliJava/commit/72dba3295b935f31c7992ba60c3e952aac724002
 
-TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
-
-TODO: Provide a screenshot of the old coverage results (the same as you already showed above)
+Old coverage results
+![Detailed Initial Coverage Report](images/detailed_initial.png)
 
 New coverage results
 ![Test 1 improvement](images/test_1_improvement.png)
+
+Missed instructions was improved from 35% to 75%, and missed branches was improved
+from 26% to 57%
 
 I changed initial test to have a null card and 4 bananas. The coverage is improved because the "continue" path is being
 hit by having a player  that does not have a card.
@@ -162,10 +165,10 @@ fit.
 
 Link to github repository: https://github.com/Cvndas/HaliGaliJava
 
-| Member | Three functions (names with links to the code on the repository) created | Initial test (name) | Other tests (names) |
-| --- | --- | --- | --- |
-| Nada | GrabAllTableCards(), KickOutDeadParticipants(), ResetGame() https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L197C2-L231C3 https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L484C1-L496C1 | GrabAllTableCards_BasicTest | ResetGame_BasicTest, InitializeGame_BasicTest |
-| Thadeus | | | |
-| Amira | | | |
-| Sıla | | | |
+| Member | Three functions (names with links to the code on the repository) created                                                                                                                                                        | Initial test (name)            | Other tests (names)                                                                          |
+| --- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|----------------------------------------------------------------------------------------------|
+| Nada | GrabAllTableCards(), KickOutDeadParticipants(), ResetGame() https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L197C2-L231C3 https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L484C1-L496C1 | GrabAllTableCards_BasicTest    | ResetGame_BasicTest, InitializeGame_BasicTest                                                |
+| Thadeus | InitializeGame(), GiveParticipantsInitialCards(),  ProgressTurnIndex(), and various other functions from the start of the project.      https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java                                                                                        | AreFiveFruitsPresent_NoParticipants_False() | AreFiveFruitsPresent_FiveFruits_True(), AreFiveFruitsPresent_NullCardAndFourFruits_False(),  ProgressTurnIndex_TwoDeadParticipants_2()|
+| Amira |                                                                                                                                                                                                                                 |                                |                                                                                              |
+| Sıla |                                                                                                                                                                                                                                 |                                |                                                                                              |
 
