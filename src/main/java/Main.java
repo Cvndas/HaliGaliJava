@@ -30,8 +30,8 @@ public class Main {
 
 	public static final int CARDS_IN_DECK = 56;
 	private static final Object bellLock = new Object();
-	private static volatile boolean userSmackedBell = false;
-	private static volatile boolean bellAlreadyHandled = false;
+	public static volatile boolean userSmackedBell = false;
+	public static volatile boolean bellAlreadyHandled = false;
 
 	public static void main(String[] args) {
 		_inputScanner = new Scanner(System.in);
@@ -341,8 +341,8 @@ public class Main {
 		clearUserInput();
 		boolean fiveFruitsArePresent = AreFiveFruitsPresent(_aliveParticipants);
 		Thread userBellSmackThread = ProcessUserBellSmacking(fiveFruitsArePresent);
-		Thread cpuBellSmackThread = ProcessCPUBellSmacking(fiveFruitsArePresent);
-
+		Random random = new Random();
+		Thread cpuBellSmackThread = ProcessCPUBellSmacking(fiveFruitsArePresent, random);
 		// ::: After 3 seconds, join the bell smacking threads.
 		SleepHack(3000);
 		try {
@@ -458,35 +458,30 @@ public class Main {
 		return userThread;
 	}
 
-	public static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent) {
-		Thread cpuThread = new Thread(() -> {
-			SleepHack(new Random().nextInt(1000, 3000));
+public static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent, Random rn) {
+    Thread cpuThread = new Thread(() -> {
+        SleepHack(rn.nextInt(1000, 3000));
 
-			// 50 % chance it will smack
-			if (new Random().nextBoolean()) {
-				synchronized (bellLock) {
-					if (!bellAlreadyHandled) {
-						Participant cpuWhoSmacked = _aliveCpuParticipants
-								.get(new Random().nextInt(_aliveCpuParticipants.size()));
-						System.out.println(cpuWhoSmacked.name + " smacked the bell!");
-						assert (!_deadParticipants.contains(cpuWhoSmacked));
-						bellAlreadyHandled = true;
-						if (fiveFruitsArePresent) {
-							HandleCorrectBellSmack(cpuWhoSmacked);
-						} else {
-							HandleWrongBellSmack(cpuWhoSmacked);
-						}
-					}
-				}
-			}
-			// else {
-			//
-			// System.out.println("CPU messed up hope you didnt.");
-			// }
-		});
-		cpuThread.start();
-		return cpuThread;
-	}
+        if (rn.nextBoolean()) {
+            synchronized (bellLock) {
+                if (!bellAlreadyHandled) {
+                    Participant cpuWhoSmacked = _aliveCpuParticipants.get(rn.nextInt(_aliveCpuParticipants.size()));
+                    System.out.println(cpuWhoSmacked.name + " smacked the bell!");
+                    assert (!_deadParticipants.contains(cpuWhoSmacked));
+                    bellAlreadyHandled = true;
+                    if (fiveFruitsArePresent) {
+                        HandleCorrectBellSmack(cpuWhoSmacked);
+                    } else {
+                        HandleWrongBellSmack(cpuWhoSmacked);
+                    }
+                }
+            }
+        }
+    });
+    cpuThread.start();
+    return cpuThread;
+}
+
 
 	public static int HandleCorrectBellSmack(Participant winner) {
 		System.out.println(winner.name + " smacked the bell successfully!");

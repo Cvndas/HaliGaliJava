@@ -11,9 +11,11 @@ public class HandleCorrectBellSmack_BasicTest {
         Participant cpu1 = new Participant("Botana");
         Participant cpu2 = new Participant("HaliBot");
 
+        // Voeg kaarten toe aan cpu tafelstapels
         cpu1.TableCards.push(new HaliCard(FruitType.Banana, 1));
         cpu2.TableCards.push(new HaliCard(FruitType.Plum, 2));
 
+        // Init alle benodigde Main-velden
         ArrayList<Participant> all = new ArrayList<>();
         all.add(winner);
         all.add(cpu1);
