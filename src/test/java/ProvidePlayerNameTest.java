@@ -12,4 +12,4 @@ public class ProvidePlayerNameTest {
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
         String result = Main.providePlayerName(scanner);
         assertEquals("Alice", result);
-    }
+    } }
