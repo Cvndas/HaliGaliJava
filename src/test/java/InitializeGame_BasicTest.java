@@ -13,6 +13,6 @@ public class InitializeGame_BasicTest {
         Main._inputScanner = new java.util.Scanner(System.in);
         int count = Main.InitializeGame();
 
-        assertEquals(3, count); 
+        assertEquals(3, count);
     }
 }
