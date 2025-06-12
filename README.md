@@ -13,10 +13,10 @@ Programming language: Java
 
 Located in src/test/java
 
-- AreFiveFruitsPresent_NoParticipants_False
-- GrabAllTableCards_BasicTest
-- ProcessCPUBellSmacking_BasicTest
-- ProvidePlayerNameTest
+- Class: AreFiveFruitsPresent_TestA, Function: AreFiveFruitsPresent_NoParticipants_False
+- Class: GrabAllTableCards_BasicTest, Function: GrabAllTableCards_BasicTest_WinnerGetsCards()
+- Class: ProcessCPUBellSmacking_BasicTest, Function: cpuSmackIncreasesCorrectBellCount_WhenFiveFruitsPresent()
+- Class: ProvidePlayerNameTest, Function: testProvidePlayerName_ValidName()
 
 ![Test Report](images/testReport.jpg)
 
