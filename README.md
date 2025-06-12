@@ -47,9 +47,10 @@ Initial Coverage:
 
 Post-test Coverage:
 
-![Nada Coverage Report](images/nadaTestsCoverage.png)
+![Nada Coverage Report](images/resetGameReport.png)
 
-This test improved coverage by 50% because it actually runs ResetGame() with all the participant lists filled. It checks if the method really clears everything and returns true. Before this, those lines weren’t being tested. Now, the code that clears the lists and checks if they’re empty is being used, which explains the coverage boost.
+This test improved coverage by 50% because it actually runs ResetGame() with all the participant lists filled. It checks if the method really clears everything and returns true. Before this, those lines weren’t being tested. Now, the code that clears the lists and checks if they’re empty is being used, which explains the coverage boost. The overall coverage in Main was boosted from **14% to 26%** because of this test.
+
 
 Test 2:  InitializeGame_BasicTest
 
@@ -61,9 +62,9 @@ Initial Coverage:
 
 Post-test Coverage:
 
-![Nada Coverage Report](images/nadaTestsCoverage.png)
+![Nada Coverage Report](images/initializeGameReport.png)
 
-This test helped increase the coverage of InitializeGame() by about 57% because it actually ran the method with real input. I used System.setIn() to simulate typing "3" for the number of players and "PlayerName" for the name. Then I set up the scanner and called the method. The test checks if the method returns 3, meaning the input was processed correctly. By doing this, the test activated parts of the code that read input, set up players, and returned the count, which wasn’t being tested before.
+This test helped increase the coverage of InitializeGame() by about 57% because it actually ran the method with real input. I used System.setIn() to simulate typing "3" for the number of players and "PlayerName" for the name. Then I set up the scanner and called the method. The test checks if the method returns 3, meaning the input was processed correctly. By doing this, the test activated parts of the code that read input, set up players, and returned the count, which wasn’t being tested before. This test boosted the overall coverage in Main from **14% to 36%**, which is a big jump. This is because the InitializeGame() function is quite large and contains many branches.
 
 
 ### Thadeus
@@ -184,8 +185,9 @@ Initial Coverage:
 
 ![Initial Coverage Report](images/initialCoverage.jpg)
 
-TODO: Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by
-the group
+![Final Coverage Report](images/finalCoverage.png)
+
+As shown above, we have managed to increase the coverage from **16% to 57%**. This is an increase by a product of 3.5, which is a huge feat. This was made possible, because of the quality of our tests and the functions and their coding-depth we have tested on.
 
 ## Statement of individual contributions
 
