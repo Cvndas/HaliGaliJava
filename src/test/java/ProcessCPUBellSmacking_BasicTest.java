@@ -37,5 +37,5 @@ public class ProcessCPUBellSmacking_BasicTest {
 
         assertEquals(correctBefore + 1, correctAfter, "CorrectBellCount should increase by 1");
     }
-
 }
+
