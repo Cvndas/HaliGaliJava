@@ -1,10 +1,9 @@
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.ByteArrayInputStream;
-// import java.io.InputStream;
-// import java.io.IOException;
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 public class ProcessUserBellSmacking_FiveFruitsTest {
 
