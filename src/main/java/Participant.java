@@ -37,14 +37,13 @@ public class Participant {
 
 
 
-
-	public void AddCard_ToBottomOfHands(HaliCard card) {
+	public int AddCard_ToBottomOfHands(HaliCard card) {
 		_handCards.addLast(card);
 		if (_handCards.size() > maxInventorySize) {
 			maxInventorySize = _handCards.size();
 		}
+		return _handCards.size();
 	}
-
 
 
 
