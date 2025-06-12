@@ -120,7 +120,7 @@ The inputs within the test are crafted to match these properties.
 
 ---
 
-### Test 1: `ProcessUserBellSmacking_BasicTest`
+### Test 2: `ProcessUserBellSmacking_BasicTest`
 
 **Commit:**  
 [View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/f985b47)
@@ -129,7 +129,7 @@ The inputs within the test are crafted to match these properties.
 - **Old:**  
   ![initial coverage](images/initialCoverage.jpg)  
 - **New:**  
-  ![New coverage](images/amira_test1.png)
+  ![New coverage](images/amira_test2.png)
 
 **Improvement:**  
 This test simulates a user smacking the bell during gameplay and evaluates whether the bell logic behaves correctly under valid and invalid fruit conditions.
@@ -137,16 +137,16 @@ It improved coverage of the Main class from **22% to 27%**, and also increased t
 Overall, total project coverage improved from **23% to 27%**, confirming that the test successfully triggered branches that were not covered by the initial test set.
 
 ---
-### Test 2: `Playgame_BasicTest`
+### Test 3: `Playgame_BasicTest`
 
 **Commit:**
 [View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/954a946)
 
 **Coverage:**
 - **Old:**
-  ![Old coverage](images/amira_test1.png)
+  ![Old coverage](images/amira_initialCoverage.png)
 - **New:**
-  ![New coverage](images/amira_test2.png)
+  ![New coverage](images/amira_test3.png)
 
 **Improvement:**
 This test simulates a full play sequence, involving both CPU and user actions, within the main game loop.
