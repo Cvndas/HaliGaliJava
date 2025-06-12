@@ -43,10 +43,6 @@ public class Main {
 		PlayGame(_player);
 	}
 
-
-
-
-
 	public static int InitializeGame() {
 		_deck = new HaliDeck();
 		_aliveParticipants = new ArrayList<>();
@@ -136,36 +132,18 @@ public class Main {
 		}
 	}
 
-	private static void PlayGame(Participant player) {
+	public static int PlayGame(Participant player) {
 		boolean gameIsDone = false;
 
-		// ::: Player is always 0
-		// ::: Whoever starts first is random
 		int currentPlayerTurn = new Random().nextInt(_participantCount);
 
-		// TODO: Refresh the terminal, then display UI elements on the top of the screen
-		// that show the controls, every
-		// round.
-
 		while (!gameIsDone) {
-
 			if (_aliveParticipants.size() == 1) {
 				gameIsDone = true;
 				Participant winner = _aliveParticipants.get(0);
-				// System.out.println(winner.name + "Wins!");
 				PlayEndScreen(winner);
 			}
 
-			// ::: The idea
-			/*
-			 * Each round consists of two parts:
-			 * 1. Waiting for the current player to place a card
-			 *
-			 * 2. If there is a combination for 5 fruits of the same type, wait until
-			 * someone presses spacebar.
-			 * If there is no combination for 5 fruits of the same type, wait for 2 seconds,
-			 * then go to the next round.
-			 */
 			out.println("\n======================");
 
 			waitForPlayerCard(currentPlayerTurn, player);
@@ -174,13 +152,14 @@ public class Main {
 			waitForBell();
 
 			currentPlayerTurn = ProgressTurnIndex(currentPlayerTurn);
-
 		}
+
+		return currentPlayerTurn;
 	}
 
 	// Returns the new currentPlayerTurn value, to be used in the next iteration of
 	// the game loop.
-	private static int ProgressTurnIndex(int currentPlayerTurn) {
+	public static int ProgressTurnIndex(int currentPlayerTurn) {
 		// ::: Progresing the turn.
 		boolean validTurnSet = false;
 		while (!validTurnSet) {
