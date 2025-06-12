@@ -12,28 +12,33 @@ public class AreFiveFruitsPresent_TestA {
 //		boolean result = Main.AreFiveFruitsPresent(aliveParticipants);
 //		assertFalse(result);
 //	}
-	
+
 	@Test
 	public void AreFiveFruitsPresent_FiveFruits_True() {
 		ArrayList<Participant> aliveParticipants = new ArrayList<>() {};
-		
+
 		Participant participantA = new Participant("Joseph");
 		Participant participantB = new Participant("Broseph");
-		
-		HaliCard bananaFour = new HaliCard(FruitType.Banana, 4);
-		HaliCard bananaOne = new HaliCard(FruitType.Banana, 1);
-		
+		Participant participantC = new Participant("Drloseph");
+
+		HaliCard bananaFour = new HaliCard(FruitType.Lime, 4);
+		HaliCard bananaOne = new HaliCard(FruitType.Plum, 5);
+		HaliCard strawberryOne = new HaliCard(FruitType.Strawberry, 1);
+
 		participantA.AddCard_ToBottomOfHands(bananaFour);
 		participantB.AddCard_ToBottomOfHands(bananaOne);
-		
+		participantC.AddCard_ToBottomOfHands(strawberryOne);
+
 		participantA.PutCardOnTable();
 		participantB.PutCardOnTable();
-		
+		participantC.PutCardOnTable();
+
 		aliveParticipants.add(participantA);
 		aliveParticipants.add(participantB);
-		
+		aliveParticipants.add(participantC);
+
 		boolean result = Main.AreFiveFruitsPresent(aliveParticipants);
-		
+
 		assertTrue(result);
 	}
 	

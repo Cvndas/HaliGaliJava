@@ -466,10 +466,7 @@ public class Main {
 					break;
 			}
 		}
-		return (bananaCount == 5 ||
-				  strawberryCount == 5 ||
-				  plumeCount == 5 ||
-				  limeCount == 5);
+		return (bananaCount == 5 || strawberryCount == 5 || plumeCount == 5 || limeCount == 5);
 	}
 
 
