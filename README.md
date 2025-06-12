@@ -191,10 +191,6 @@ As shown above, we have managed to increase the coverage from **16% to 57%**. Th
 
 ## Statement of individual contributions
 
-TODO: Write what each group member did. Use the following table for that and add additional text under it if you see
-fit.
-
-
 Link to github repository: https://github.com/Cvndas/HaliGaliJava
 
 | Member | Three functions (names with links to the code on the repository) created                                                                                                                                                        | Initial test (name)            | Other tests (names)                                                                          |
