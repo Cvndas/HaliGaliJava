@@ -486,20 +486,7 @@ public class Main {
 		_allCpuParticipants.clear();
 		_aliveParticipants.clear();
 		_deadParticipants.clear();
-
-		// _deck = new HaliDeck();
-		// _player = new Participant();
-		// _aliveParticipants.add(_player);
-		//
-		// GiveParticipantInitialCards(_player, _participantCount);
-		//
-		// for (int i = 1; i < _participantCount; i++) {
-		// Participant cpu = new Participant();
-		// GiveParticipantInitialCards(cpu, _participantCount);
-		// _cpuPlayers.add(cpu);
-		// _aliveParticipants.add(cpu);
-		// }
-		//
+		
 		System.out.println("\nGame has been reset!\n");
 
 		return (_allCpuParticipants.isEmpty() &&
