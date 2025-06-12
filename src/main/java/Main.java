@@ -1,4 +1,5 @@
 import static java.lang.System.out;
+
 import java.util.ArrayList;
 import java.util.Random;
 // import java.util.List;
@@ -37,11 +38,19 @@ public class Main {
 	public static volatile boolean userSmackedBell = false;
 	public static volatile boolean bellAlreadyHandled = false;
 
+
+
+
+
 	public static void main(String[] args) {
 		_inputScanner = new Scanner(System.in);
 		InitializeGame();
 		PlayGame(_player);
 	}
+
+
+
+
 
 	public static int InitializeGame() {
 		_deck = new HaliDeck();
@@ -61,8 +70,8 @@ public class Main {
 				_inputScanner.nextLine();
 			}
 			playerCountIsValid = (_participantCount == 2) ||
-					(_participantCount == 3) ||
-					(_participantCount == 4);
+					  (_participantCount == 3) ||
+					  (_participantCount == 4);
 			if (!playerCountIsValid) {
 				out.println("Invalid player count. Options: 2, 3, 4");
 			}
@@ -90,9 +99,13 @@ public class Main {
 		return _allParticipants.size();
 	}
 
+
+
+
+
 	public static ArrayList<String> generateCpuNames(int cpuCount) {
 		ArrayList<String> names = new ArrayList<>();
-		String[] possibleNames = { "BotMax", "Botana", "NeuroBot", "HaliBot", "GaliBot" };
+		String[] possibleNames = {"BotMax", "Botana", "NeuroBot", "HaliBot", "GaliBot"};
 		Random rand = new Random();
 
 		for (int i = 0; i < cpuCount; i++) {
@@ -104,6 +117,10 @@ public class Main {
 		}
 		return names;
 	}
+
+
+
+
 
 	public static String providePlayerName(Scanner scanner) {
 		System.out.println("Enter your name:");
@@ -120,6 +137,10 @@ public class Main {
 		return name;
 	}
 
+
+
+
+
 	private static void GiveParticipantInitialCards(Participant participant, int participantCount) {
 		int cardsToGiveToParticipant = CARDS_IN_DECK / participantCount;
 		assert (cardsToGiveToParticipant * participantCount <= CARDS_IN_DECK);
@@ -131,6 +152,10 @@ public class Main {
 			participant.AddCard_ToBottomOfHands(cardFromDeck);
 		}
 	}
+
+
+
+
 
 	public static int PlayGame(Participant player) {
 		boolean gameIsDone = false;
@@ -150,7 +175,7 @@ public class Main {
 			clearUserInput();
 			PrintCurrentTableCards();
 			waitForBell();
-      currentPlayerTurn = ProgressTurnIndex(
+			currentPlayerTurn = ProgressTurnIndex(
 					  currentPlayerTurn,
 					  _allCpuParticipants,
 					  _deadParticipants,
@@ -160,11 +185,13 @@ public class Main {
 		return currentPlayerTurn;
 	}
 
-	
-  
-  	// Returns the new currentPlayerTurn value, to be used in the next iteration of the game loop.
+
+
+
+
+	// Returns the new currentPlayerTurn value, to be used in the next iteration of the game loop.
 	public static int ProgressTurnIndex(
-			  int currentPlayerTurn, 
+			  int currentPlayerTurn,
 			  ArrayList<Participant> allCpuParticipants,
 			  ArrayList<Participant> deadParticipants,
 			  Participant player) {
@@ -188,9 +215,13 @@ public class Main {
 				out.println("A dead cpu was set, trying again. index was" + currentPlayerTurn);
 			}
 		}
-		
+
 		return currentPlayerTurn;
 	}
+
+
+
+
 
 	// To be called when a player smacks the bell and there are precisely 5 fruits
 	// of the same type on the table.
@@ -206,6 +237,10 @@ public class Main {
 		KickOutDeadParticipants();
 		return winner;
 	}
+
+
+
+
 
 	// Players can only die when someone has
 	public static ArrayList<Participant> KickOutDeadParticipants() {
@@ -230,6 +265,10 @@ public class Main {
 		return eliminated;
 	}
 
+
+
+
+
 	private static void PlayEndScreen(Participant winner) {
 		System.out.println("\n===============================");
 		System.out.println("         GAME OVER!");
@@ -250,6 +289,10 @@ public class Main {
 		}
 	}
 
+
+
+
+
 	private static void PrintStatistics() {
 		System.out.println("\n--- Game Statistics ---");
 
@@ -260,6 +303,10 @@ public class Main {
 			System.out.println();
 		}
 	}
+
+
+
+
 
 	private static void waitForPlayerCard(int currentPlayerTurn, Participant player) {
 		Participant participant = _aliveParticipants.get(currentPlayerTurn);
@@ -289,6 +336,10 @@ public class Main {
 		}
 	}
 
+
+
+
+
 	private static void PrintCurrentTableCards() {
 		out.println("\n---The Cards on the Table---");
 
@@ -316,6 +367,10 @@ public class Main {
 		out.println("----------------------------");
 	}
 
+
+
+
+
 	private static void SleepHack(int msSleepTime) {
 		try {
 			Thread.sleep(msSleepTime);
@@ -324,6 +379,10 @@ public class Main {
 			out.println("This code has no business being triggered. The game is broken");
 		}
 	}
+
+
+
+
 
 	/// Seeing who will smack the bell first within a 3 second window.
 	private static void waitForBell() {
@@ -346,6 +405,10 @@ public class Main {
 		}
 	}
 
+
+
+
+
 	private static void HandleWrongBellSmack(Participant victim) {
 		out.println(victim.name + " miscounted!");
 		for (Participant nonVictim : _aliveParticipants) {
@@ -361,6 +424,10 @@ public class Main {
 		out.println(victim.name + " now has " + victim.getHandCardSize() + " cards.");
 		KickOutDeadParticipants();
 	}
+
+
+
+
 
 	public static boolean AreFiveFruitsPresent(ArrayList<Participant> aliveParticipants) {
 
@@ -400,10 +467,14 @@ public class Main {
 			}
 		}
 		return (bananaCount == 5 ||
-				strawberryCount == 5 ||
-				plumeCount == 5 ||
-				limeCount == 5);
+				  strawberryCount == 5 ||
+				  plumeCount == 5 ||
+				  limeCount == 5);
 	}
+
+
+
+
 
 	private static void clearUserInput() {
 		try {
@@ -414,6 +485,10 @@ public class Main {
 			out.println("Checking if there was userinput threw exception: " + e.getMessage());
 		}
 	}
+
+
+
+
 
 	public static Thread ProcessUserBellSmacking(boolean fiveFruitsArePresent, InputStream inStream) {
 		Thread userThread = new Thread(() -> {
@@ -449,6 +524,10 @@ public class Main {
 		return userThread;
 	}
 
+
+
+
+
 	public static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent, Random rn) {
 		Thread cpuThread = new Thread(() -> {
 			SleepHack(rn.nextInt(1000, 3000));
@@ -473,6 +552,10 @@ public class Main {
 		return cpuThread;
 	}
 
+
+
+
+
 	public static int HandleCorrectBellSmack(Participant winner) {
 		System.out.println(winner.name + " smacked the bell successfully!");
 		winner.correctBellCount++;
@@ -480,6 +563,10 @@ public class Main {
 		out.println(winner.name + " now has " + winner.getHandCardSize() + " cards.");
 		return winner.correctBellCount;
 	}
+
+
+
+
 
 	private static boolean ResetGame() {
 
@@ -503,8 +590,8 @@ public class Main {
 		System.out.println("\nGame has been reset!\n");
 
 		return (_allCpuParticipants.isEmpty() &&
-				_aliveParticipants.isEmpty() &&
-				_deadParticipants.isEmpty());
+				  _aliveParticipants.isEmpty() &&
+				  _deadParticipants.isEmpty());
 	}
 
 }
