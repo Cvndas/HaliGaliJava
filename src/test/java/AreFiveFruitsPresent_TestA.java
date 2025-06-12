@@ -5,6 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class AreFiveFruitsPresent_TestA {
+	
+	//	@Test
+//	public void AreFiveFruitsPresent_NoParticipants_False() {
+//		ArrayList<Participant> aliveParticipants = new ArrayList<>() {};
+//		boolean result = Main.AreFiveFruitsPresent(aliveParticipants);
+//		assertFalse(result);
+//	}
+
+	
 	@Test
 	public void AreFiveFruitsPresent_FiveFruits_True() {
 		ArrayList<Participant> aliveParticipants = new ArrayList<>() {};
