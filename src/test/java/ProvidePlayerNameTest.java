@@ -13,4 +13,3 @@ public class ProvidePlayerNameTest {
         String result = Main.providePlayerName(scanner);
         assertEquals("Alice", result);
     }
-}
