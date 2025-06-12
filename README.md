@@ -131,7 +131,7 @@ The inputs within the test are crafted to match these properties.
   ![New coverage](images/amira_test1.png)
 
 **Improvement:**  
-Code coverage increased from **0% to 24%**. This test covers the CPU's bell-smack behavior during a valid and invalid fruit combination scenario. This contributes to logic branches and exception-safe execution in multi-threaded cases.
+Code coverage increased from **0% to 2%**. This test covers the CPU's bell-smack behavior during a valid and invalid fruit combination scenario. This contributes to logic branches and exception-safe execution in multi-threaded cases.
 
 ---
 
@@ -147,7 +147,7 @@ Code coverage increased from **0% to 24%**. This test covers the CPU's bell-smac
   ![New coverage](images/amira_test2.png)
 
 **Improvement:**  
-Coverage rose from **24% to 48%**. This test includes user bell-smack interaction during gameplay, expanding test coverage to user-triggered input and validating the shared bell state. This reduced untested conditional branches in user-related flow.
+Coverage rose from **2% to 6%**. This test includes user bell-smack interaction during gameplay, expanding test coverage to user-triggered input and validating the shared bell state. This reduced untested conditional branches in user-related flow.
 
 ---
 
@@ -163,7 +163,7 @@ Coverage rose from **24% to 48%**. This test includes user bell-smack interactio
   ![New coverage](images/amira_test3.png)
 
 **Improvement:**  
-Coverage increased from **48% to 76%**. This test drives a full simulated game round and covers combined CPU and user actions. It triggered logic previously unreachable by isolated function tests, such as game-over state evaluation and participant list updates.
+Coverage increased from **6% to 20%**. This test drives a full simulated game round and covers combined CPU and user actions. It triggered logic previously unreachable by isolated function tests, such as game-over state evaluation and participant list updates.
 
 ---
 
