@@ -2,25 +2,32 @@
 
 ## Project
 
-Description: TODO
+Description: An implementation of the Halli Galli card game featuring a player versus multiple CPU opponents. It includes game mechanics like card handling, bell-smacking logic, and participant elimination.
 
-Programming language: TODO
+Programming language: Java
 
 ## Initial tests
 
 ### Tests
 
-TODO: Add their code here
+AreFiveFruitsPresent_TestA.java
+GrabAllTableCards_BasicTest.java
+ProcessCPUBellSmacking_BasicTest.java
+GenerateCpuNames.java
+
+![Initial Coverage Report](images/tests.jpg)
 
 ### Coverage of initial tests
 
-TODO: Inform the name of the existing tool that was executed and how it was executed
+We used jacoco and gradle to do our initial tests. We created a build.gradle file that ensured we're using jacoco and ran tests using the command line ./gradlew clean test jacocoTestReport. To know if the tests worked, we would navigate to the index.html file found in HaliGaliJava/build/reports/tests/test and to see our coverage so far we would navigate to the index.html file found in HaliGaliJava/build/reports/jacoco/test/html.
 
-TODO: Show the coverage results provided by the existing tool with a screenshot
+![Initial Coverage Report](images/initial_coverage2.jpg)
 
 ## Coverage improvement
 
 ### Individual tests
+
+Nada
 
 TODO: The following is supposed to be repeated for each group member
 
@@ -38,9 +45,59 @@ TODO: State the coverage improvement with a number and elaborate on why the cove
 
 Repeat for other tests...
 
+Thadeus
+
+TODO: Group member name
+
+TODO: Test 1
+
+TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
+
+TODO: Provide a screenshot of the old coverage results (the same as you already showed above)
+
+TODO: Provide a screenshot of the new coverage results
+
+TODO: State the coverage improvement with a number and elaborate on why the coverage is improved
+
+Repeat for other tests...
+
+Amira
+
+TODO: Group member name
+
+TODO: Test 1
+
+TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
+
+TODO: Provide a screenshot of the old coverage results (the same as you already showed above)
+
+TODO: Provide a screenshot of the new coverage results
+
+TODO: State the coverage improvement with a number and elaborate on why the coverage is improved
+
+Repeat for other tests...
+
+Sıla 
+
+TODO: Group member name
+
+TODO: Test 1
+
+TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
+
+TODO: Provide a screenshot of the old coverage results (the same as you already showed above)
+
+TODO: Provide a screenshot of the new coverage results
+
+TODO: State the coverage improvement with a number and elaborate on why the coverage is improved
+
+Repeat for other tests...
+
+
+
 ### Overall
 
-TODO: Provide a screenshot of the old coverage results by running an existing tool (the same as you already showed above)
+![Initial Coverage Report](images/initial_coverage2.jpg)
 
 TODO: Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by the group
 

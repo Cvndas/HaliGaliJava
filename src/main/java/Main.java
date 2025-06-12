@@ -84,11 +84,7 @@ public class Main {
 			_aliveCpuParticipants.add(cpuParticipant);
 			_allParticipants.add(cpuParticipant);
 		}
-<<<<<<< HEAD
 		return _allParticipants.size();
-=======
-		// out.println("length of cpuplayers upon init: "+ _allCpuParticipants.size());
->>>>>>> a5b35211dfa439ab0e43ef467de0375b14affd48
 	}
 
 	public static ArrayList<String> generateCpuNames(int cpuCount) {
