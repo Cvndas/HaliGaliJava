@@ -163,11 +163,10 @@ In total, the project gained 7% coverage, and 86 instructions were newly covered
 ---
 
 
-Sıla
+## Sila
+### Test 1: `testProvidePlayerName_ValidName`
 
-TODO: Group member name
 
-TODO: Test 1
 
 TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
 
