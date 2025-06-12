@@ -25,13 +25,13 @@ public class ProgressTurnIndex_Tests {
 		ArrayList<Participant> allCpuParticipants = new ArrayList<>();
 		allCpuParticipants.add(deadCPU);
 		allCpuParticipants.add(aliveCPU);
-		
+
 
 		ArrayList<Participant> deadParticipants = new ArrayList<>();
 		deadParticipants.add(deadPlayer);
 		deadParticipants.add(deadCPU);
 
-		
+
 
 		int result = Main.ProgressTurnIndex(
 				  allCpuParticipants.size(),
