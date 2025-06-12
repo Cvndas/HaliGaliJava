@@ -72,45 +72,42 @@ Test 1:
 https://github.com/Cvndas/HaliGaliJava/commit/72dba3295b935f31c7992ba60c3e952aac724002
 
 Old coverage results
-![Detailed Initial Coverage Report](images/initialCoverage.jpg)
+![Detailed Initial Coverage Report](images/detailed_initial.png)
 
-The coverage results with the modified test 1
-![Test 1 improvement](images/Thadeus_CoverageWith_Test1.png)
+New coverage results
+![Test 1 improvement](images/test_1_improvement.png)
 
-Replacing the test from the batch of initial tests with the new test improved
-coverage by 5%
+Missed instructions was improved from 35% to 75%, and missed branches was improved
+from 26% to 57%
 
 I changed initial test to have a null card and 4 bananas. The coverage is improved because the "continue" path is being
-hit by having a player  that does not have a card, as well as hitting other parts of the
-function.
-
-
+hit by having a player  that does not have a card.
 
 Test 2:
 Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results:
-![Test 1 improvement](images/initialCoverage.jpg)
+![Test 1 improvement](images/test_1_improvement.png)
 
-Coverage results with test 2 added
-![Test 2 improvement](images/Thadeus_CoverageWith_Test2.png)
+New coverage results:
+![Test 2 improvement](images/Thadeus_Test_2_improvement.png)
 
-This test improves coverage by 5%. It does so by using a variety
-of fruit types, hitting more lines within the switch statement. 
+This test improves the coverage for the same function by 25% on missed instructions, and 31% on missed branches.
+This is because it tests for various different fruits. 
 
 
 
-Test 3
+TODO: Test 3
 
 Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results
-![Test 2 improvement](images/initialCoverage.jpg)
+![Test 2 improvement](images/Thadeus_Test_2_improvement.png)
 
 New coverage results:
-![Test 3 improvement](images/Thadeus_CoverageWith_Test3.png)
+![Test 3 improvement](images/Thadeus_Test_3_improvement.png)
 
-This test improves coverage by 9%. It does so by maximizing the coverage of the ProgressTurnIndex() function.
+The new test improves missed instructions on ProgressTurnIndex() by 100%, and missed branches by 87%.
 This test was created by analyzing how the function works, and observing that the following must hold
 for coverage to be maximum:
 		- currentPlayerTurn input must be equal to allCpuParticipants.size()
@@ -119,55 +116,43 @@ for coverage to be maximum:
 		- The CPU After the dead cpu is not dead.
 The inputs within the test are crafted to match these properties.
 
-
 ## Amira
 
 ---
 
-### Test 1: `ProcessCPUBellSmacking_BasicTest`
+### Test 1: `ProcessUserBellSmacking_BasicTest`
 
 **Commit:**  
-[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/f2c6bf4)
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/f985b47)
 
 **Coverage:**  
-- **Old:** 0% (this is my first test)  
+- **Old:**  
+  ![initial coverage](images/initialCoverage.jpg)  
 - **New:**  
   ![New coverage](images/amira_test1.png)
 
 **Improvement:**  
-Code coverage increased from **0% to 2%**. This test covers the CPU's bell-smack behavior during a valid and invalid fruit combination scenario. This contributes to logic branches and exception-safe execution in multi-threaded cases.
+This test simulates a user smacking the bell during gameplay and evaluates whether the bell logic behaves correctly under valid and invalid fruit conditions.
+It improved coverage of the Main class from **22% to 27%**, and also increased the Participant class coverage slightly (from 80% to 81%).
+Overall, total project coverage improved from **23% to 27%**, confirming that the test successfully triggered branches that were not covered by the initial test set.
 
 ---
+### Test 2: `Playgame_BasicTest`
 
-### Test 2: `ProcessUserBellSmacking_BasicTest`
+**Commit:**
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/954a946)
 
-**Commit:**  
-[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/4bf9e3f)
-
-**Coverage:**  
-- **Old:**  
-  ![Old coverage](images/amira_test1.png)  
-- **New:**  
+**Coverage:**
+- **Old:**
+  ![Old coverage](images/amira_test1.png)
+- **New:**
   ![New coverage](images/amira_test2.png)
 
-**Improvement:**  
-Coverage rose from **2% to 6%**. This test includes user bell-smack interaction during gameplay, expanding test coverage to user-triggered input and validating the shared bell state. This reduced untested conditional branches in user-related flow.
-
----
-
-### Test 3: `Playgame_BasicTest`
-
-**Commit:**  
-[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/494a60a)
-
-**Coverage:**  
-- **Old:**  
-  ![Old coverage](images/amira_test2.png)  
-- **New:**  
-  ![New coverage](images/amira_test3.png)
-
-**Improvement:**  
-Coverage increased from **6% to 20%**. This test drives a full simulated game round and covers combined CPU and user actions. It triggered logic previously unreachable by isolated function tests, such as game-over state evaluation and participant list updates.
+**Improvement:**
+This test simulates a full play sequence, involving both CPU and user actions, within the main game loop.
+It significantly improved the instruction coverage of Main.java from 27% to 31%, and branch coverage from 20% to 26%.
+Previously untested paths—like turn progression, victory checks, and participant updates—are now executed.
+In total, the project gained 3% coverage, and 35 instructions and 1 method were newly covered.
 
 ---
 
