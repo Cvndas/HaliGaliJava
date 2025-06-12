@@ -140,17 +140,17 @@ Overall, total project coverage improved from **23% to 27%**, confirming that th
 ### Test 3: `Playgame_BasicTest`
 
 **Commit:**
-[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/954a946)
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/232a57f)
 
 **Coverage:**
 - **Old:**
-  ![Old coverage](images/amira_initialCoverage.png)
+  ![Old coverage](images/amira_initialCoverage.jpg)
 - **New:**
   ![New coverage](images/amira_test3.png)
 
 **Improvement:**
 This test simulates a full play sequence, involving both CPU and user actions, within the main game loop.
-It significantly improved the instruction coverage of Main.java from 27% to 31%, and branch coverage from 20% to 26%.
+It significantly improved the instruction coverage of Main.java from 23% to 31%, and branch coverage from 16% to 26%.
 Previously untested paths—like turn progression, victory checks, and participant updates—are now executed.
 In total, the project gained 3% coverage, and 35 instructions and 1 method were newly covered.
 
