@@ -75,7 +75,7 @@ Old coverage results
 ![Detailed Initial Coverage Report](images/initialCoverage.png)
 
 The coverage results with the modified test 1
-![Test 1 improvement](images/Thadeus_CoverageWith_Test1)
+![Test 1 improvement](images/Thadeus_CoverageWith_Test1.png)
 
 Replacing the test from the batch of initial tests with the new test improved
 coverage by 5%
