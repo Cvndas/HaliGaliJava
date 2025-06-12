@@ -1,6 +1,7 @@
-import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 public class InitializeGame_BasicTest {
 
@@ -12,6 +13,6 @@ public class InitializeGame_BasicTest {
         Main._inputScanner = new java.util.Scanner(System.in);
         int count = Main.InitializeGame();
 
-        assertEquals(3, count); // 1 player + 2 CPUs
+        assertEquals(3, count); 
     }
 }
