@@ -10,10 +10,12 @@ Programming language: Java
 
 ### Tests
 
-- AreFiveFruitsPresent_TestA.java
-- GrabAllTableCards_BasicTest.java
-- ProcessCPUBellSmacking_BasicTest.java
-- GenerateCpuNames.java
+Located in src/test/java
+
+- AreFiveFruitsPresent_TestA
+- GrabAllTableCards_BasicTest
+- ProcessCPUBellSmacking_BasicTest
+- ProvidePlayerNameTest
 
 ![Initial Coverage Report](images/testReport.jpg)
 
