@@ -144,7 +144,7 @@ Overall, total project coverage improved from **23% to 27%**, confirming that th
 
 **Coverage:**
 - **Old:**
-  ![Old coverage](images/amira_initialCoverage.jpg)
+  ![Old coverage](images/initialCoverage.jpg)
 - **New:**
   ![New coverage](images/amira_test3.png)
 
