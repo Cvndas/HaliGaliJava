@@ -40,7 +40,11 @@ public class PlayGame_BasicTest {
         Main._participantCount = 3;
 
         // Stel huidige beurt in op cpu1 (index 1, die dead is)
-        int newTurn = Main.ProgressTurnIndex(1);
+        int newTurn = Main.ProgressTurnIndex(
+                1,
+                Main._allCpuParticipants,
+                Main._deadParticipants,
+                Main._player);
 
         // Verwacht dat de beurt geskiped is naar cpu2 (index 2)
         assertEquals(2, newTurn, "Turn should skip dead cpu1 and go to cpu2");
