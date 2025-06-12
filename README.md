@@ -157,28 +157,40 @@ Overall, total project coverage improved from **23% to 27%**, confirming that th
 
 **Improvement:**
 This test simulates a full play sequence, involving both CPU and user actions, within the main game loop.
-It significantly improved the instruction coverage of Main.java from 23% to 31%, and branch coverage from 16% to 26%.
+It improved the instruction coverage of Main.java from 23% to 31%, and branch coverage from 16% to 26%.
 Previously untested paths—like turn progression, victory checks, and participant updates—are now executed.
 In total, the project gained 7% coverage, and 86 instructions were newly covered.
 
 ---
 
 
-Sıla
+## Sila
+### Test 1: `testProvidePlayerName_EmptyThenValid`
+**Commit:**  
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/688890e743222207943b6fe26987b1d05700ff11#diff-843b1456af196eb915103929ab027ff2b338bd74b1b45abd887a116f261c8c67)
 
-TODO: Group member name
+**Coverage:**
+- **Old:**
+  ![Old coverage](images/initialCoverage.jpg)
+- **New:**
+  ![New coverage](images/Sila_Coverage_Test2.png)
 
-TODO: Test 1
+**Improvement:**
+This test improves coverage by 1%. It does so by maximizing the coverage of the providePlayerName() function. This test was created by analyzing how the function works. It tested the case when the input is empty. 
 
-TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
+### Test 2: `testGenerateCpuNames_CorrectCountAndUniqueNames`
+**Commit:**  
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/b8f4c3fd091393d0e4c6149084a3c71f52502394#diff-b03730284ee8b103d39fc358320292d026310c2562495eb414f0a84a8d3f3528)
 
-TODO: Provide a screenshot of the old coverage results (the same as you already showed above)
+**Coverage:**
+- **Old:**
+  ![Old coverage](images/initialCoverage.jpg)
+- **New:**
+  ![New coverage](images/Sila_LastMissing.png)
 
-TODO: Provide a screenshot of the new coverage results
+**Improvement:**
 
-TODO: State the coverage improvement with a number and elaborate on why the coverage is improved
-
-Repeat for other tests...
+The test testGenerateCpuNames_CorrectCountAndUniqueNames contributes to a 3% increase in overall code coverage. This improvement is achieved by thoroughly exercising the GenerateCpuNames() function, ensuring that it is invoked with a representative set of parameters and that both the correctness and uniqueness of the generated CPU names are verified. As a result, edge cases and previously untested branches within the function are now covered, enhancing the robustness and reliability of the codebase.
 
 ### Overall
 
@@ -199,5 +211,5 @@ Link to github repository: https://github.com/Cvndas/HaliGaliJava
 | Nada | GrabAllTableCards(), KickOutDeadParticipants(), ResetGame() https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L197C2-L231C3 https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L484C1-L496C1 | GrabAllTableCards_BasicTest    | ResetGame_BasicTest, InitializeGame_BasicTest                                                |
 | Thadeus | InitializeGame(), GiveParticipantsInitialCards(),  ProgressTurnIndex(), and various other functions from the start of the project.      https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java                                                                                        | AreFiveFruitsPresent_NoParticipants_False() | AreFiveFruitsPresent_FiveFruits_True(), AreFiveFruitsPresent_NullCardAndFourFruits_False() - This replaces my initial test - ,  ProgressTurnIndex_TwoDeadParticipants_2()|
 | Amira |ProcessUserBellSmacking(), ProcessCPUBellSmacking() and HandleCorrectBellSmack() https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L490-L562 |  ProcessCPUBellSmacking_BasicTest                      |  PlayGame_BasicTest, ProcessUserBellSmacking_BasicTest                                                                                                |
-| Sıla |                                                                                                                                                                                                                                 |                                |                                                                                              |
+| Sıla |      providePlayerName(), generateCpuNames(), PlayEndScreen(), PrintStatistics()                                                                                                                                                                                                                           |             testProvidePlayerName_ValidName()                   |      testProvidePlayerName_EmptyThenValid(), testGenerateCpuNames_CorrectCountAndUniqueNames()                                                                                        |
 
