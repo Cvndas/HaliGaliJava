@@ -32,6 +32,7 @@ public class ProgressTurnIndex_Tests {
 		deadParticipants.add(deadPlayer);
 		deadParticipants.add(deadCPU);
 
+		
 
 		int result = Main.ProgressTurnIndex(
 				  allCpuParticipants.size(),
