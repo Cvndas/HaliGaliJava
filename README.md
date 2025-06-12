@@ -72,7 +72,7 @@ Test 1:
 https://github.com/Cvndas/HaliGaliJava/commit/72dba3295b935f31c7992ba60c3e952aac724002
 
 Old coverage results
-![Detailed Initial Coverage Report](images/initialCoverage.png)
+![Detailed Initial Coverage Report](images/initialCoverage.jpg)
 
 The coverage results with the modified test 1
 ![Test 1 improvement](images/Thadeus_CoverageWith_Test1.png)
@@ -90,7 +90,7 @@ Test 2:
 Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results:
-![Test 1 improvement](images/initialCoverage.png)
+![Test 1 improvement](images/initialCoverage.jpg)
 
 Coverage results with test 2 added
 ![Test 2 improvement](images/Thadeus_CoverageWith_Test2.png)
