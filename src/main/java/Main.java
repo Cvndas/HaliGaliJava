@@ -1,11 +1,12 @@
 import java.util.ArrayList;
-import java.util.List;
+// import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
 
 import static java.lang.System.out;
 
-import java.io.IOException;
+// import java.io.IOException;
+import java.io.InputStream;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 
@@ -17,7 +18,8 @@ public class Main {
 	// Variable containing ALL alive participants, including the player
 	public static ArrayList<Participant> _aliveParticipants;
 
-	// Variable storing only the CPU participants who are alive, excluding the player.
+	// Variable storing only the CPU participants who are alive, excluding the
+	// player.
 
 	public static ArrayList<Participant> _aliveCpuParticipants;
 	public static ArrayList<Participant> _deadParticipants;
@@ -210,9 +212,8 @@ public class Main {
 
 		System.out.println(winner.name + " grabbed all the table cards!");
 		KickOutDeadParticipants();
-		return winner; 
+		return winner;
 	}
-
 
 	// Players can only die when someone has
 	public static ArrayList<Participant> KickOutDeadParticipants() {
@@ -236,7 +237,6 @@ public class Main {
 		}
 		return eliminated;
 	}
-
 
 	private static void PlayEndScreen(Participant winner) {
 		System.out.println("\n===============================");
@@ -340,7 +340,8 @@ public class Main {
 		bellAlreadyHandled = false;
 		clearUserInput();
 		boolean fiveFruitsArePresent = AreFiveFruitsPresent(_aliveParticipants);
-		Thread userBellSmackThread = ProcessUserBellSmacking(fiveFruitsArePresent);
+		Thread userBellSmackThread = ProcessUserBellSmacking(fiveFruitsArePresent, System.in);
+
 		Random random = new Random();
 		Thread cpuBellSmackThread = ProcessCPUBellSmacking(fiveFruitsArePresent, random);
 		// ::: After 3 seconds, join the bell smacking threads.
@@ -368,7 +369,6 @@ public class Main {
 		out.println(victim.name + " now has " + victim.getHandCardSize() + " cards.");
 		KickOutDeadParticipants();
 	}
-
 
 	public static boolean AreFiveFruitsPresent(ArrayList<Participant> aliveParticipants) {
 
@@ -423,18 +423,18 @@ public class Main {
 		}
 	}
 
-	public static Thread ProcessUserBellSmacking(boolean fiveFruitsArePresent) {
+	public static Thread ProcessUserBellSmacking(boolean fiveFruitsArePresent, InputStream inStream) {
 		Thread userThread = new Thread(() -> {
 			long startTime = System.currentTimeMillis();
-			System.out.println("!!!COUNT 5 FRUITS? SMACK THE BELL!!! (press Enter)");
-			while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
-				if (_deadParticipants.contains(_player)) {
-					break;
-				}
-				try {
-					if (System.in.available() > 0) {
-						// synchronized (_inputScanner) {
-						_inputScanner.nextLine();
+			Scanner testScanner = new Scanner(inStream);
+			try {
+				System.out.println("!!!COUNT 5 FRUITS? SMACK THE BELL!!! (press Enter)");
+				while (System.currentTimeMillis() - startTime < 3000 && !bellAlreadyHandled) {
+					if (_deadParticipants.contains(_player)) {
+						break;
+					}
+					if (testScanner.hasNextLine()) {
+						testScanner.nextLine();
 						synchronized (bellLock) {
 							if (!bellAlreadyHandled) {
 								userSmackedBell = true;
@@ -445,43 +445,41 @@ public class Main {
 									HandleWrongBellSmack(_player);
 								}
 							}
-							break;
 						}
+						break;
 					}
-				} catch (IOException e) {
-					System.out.println("Error checking input availability");
 				}
+			} finally {
+				testScanner.close();
 			}
 		});
 		userThread.start();
-
 		return userThread;
 	}
 
-public static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent, Random rn) {
-    Thread cpuThread = new Thread(() -> {
-        SleepHack(rn.nextInt(1000, 3000));
+	public static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent, Random rn) {
+		Thread cpuThread = new Thread(() -> {
+			SleepHack(rn.nextInt(1000, 3000));
 
-        if (rn.nextBoolean()) {
-            synchronized (bellLock) {
-                if (!bellAlreadyHandled) {
-                    Participant cpuWhoSmacked = _aliveCpuParticipants.get(rn.nextInt(_aliveCpuParticipants.size()));
-                    System.out.println(cpuWhoSmacked.name + " smacked the bell!");
-                    assert (!_deadParticipants.contains(cpuWhoSmacked));
-                    bellAlreadyHandled = true;
-                    if (fiveFruitsArePresent) {
-                        HandleCorrectBellSmack(cpuWhoSmacked);
-                    } else {
-                        HandleWrongBellSmack(cpuWhoSmacked);
-                    }
-                }
-            }
-        }
-    });
-    cpuThread.start();
-    return cpuThread;
-}
-
+			if (rn.nextBoolean()) {
+				synchronized (bellLock) {
+					if (!bellAlreadyHandled) {
+						Participant cpuWhoSmacked = _aliveCpuParticipants.get(rn.nextInt(_aliveCpuParticipants.size()));
+						System.out.println(cpuWhoSmacked.name + " smacked the bell!");
+						assert (!_deadParticipants.contains(cpuWhoSmacked));
+						bellAlreadyHandled = true;
+						if (fiveFruitsArePresent) {
+							HandleCorrectBellSmack(cpuWhoSmacked);
+						} else {
+							HandleWrongBellSmack(cpuWhoSmacked);
+						}
+					}
+				}
+			}
+		});
+		cpuThread.start();
+		return cpuThread;
+	}
 
 	public static int HandleCorrectBellSmack(Participant winner) {
 		System.out.println(winner.name + " smacked the bell successfully!");
@@ -490,9 +488,6 @@ public static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent, Random
 		out.println(winner.name + " now has " + winner.getHandCardSize() + " cards.");
 		return winner.correctBellCount;
 	}
-
-
-
 
 	private static boolean ResetGame() {
 
@@ -516,8 +511,8 @@ public static Thread ProcessCPUBellSmacking(boolean fiveFruitsArePresent, Random
 		System.out.println("\nGame has been reset!\n");
 
 		return (_allCpuParticipants.isEmpty() &&
-           _aliveParticipants.isEmpty() &&
-           _deadParticipants.isEmpty());
+				_aliveParticipants.isEmpty() &&
+				_deadParticipants.isEmpty());
 	}
 
 }
