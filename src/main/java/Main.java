@@ -1,10 +1,8 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Random;
-
-import static java.lang.System.out;
-
 import java.io.IOException;
+import static java.lang.System.out;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 
@@ -43,7 +41,7 @@ public class Main {
 
 
 
-	private static void InitializeGame() {
+	public static int InitializeGame() {
 		_deck = new HaliDeck();
 		_aliveParticipants = new ArrayList<>();
 		_aliveCpuParticipants = new ArrayList<>();
@@ -87,7 +85,7 @@ public class Main {
 			_aliveCpuParticipants.add(cpuParticipant);
 			_allParticipants.add(cpuParticipant);
 		}
-//		out.println("length of cpuplayers upon init: "+ _allCpuParticipants.size());
+		return _allParticipants.size();
 	}
 
 
