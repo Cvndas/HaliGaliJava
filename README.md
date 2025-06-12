@@ -13,7 +13,7 @@ Programming language: Java
 
 Located in src/test/java
 
-- AreFiveFruitsPresent_TestA
+- AreFiveFruitsPresent_NoParticipants_False
 - GrabAllTableCards_BasicTest
 - ProcessCPUBellSmacking_BasicTest
 - ProvidePlayerNameTest
