@@ -481,12 +481,12 @@ public class Main {
 		return winner.correctBellCount;
 	}
 
-	private static boolean ResetGame() {
+	public static boolean ResetGame() {
 
 		_allCpuParticipants.clear();
 		_aliveParticipants.clear();
 		_deadParticipants.clear();
-		
+
 		System.out.println("\nGame has been reset!\n");
 
 		return (_allCpuParticipants.isEmpty() &&
