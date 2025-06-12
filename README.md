@@ -116,21 +116,57 @@ for coverage to be maximum:
 		- The CPU After the dead cpu is not dead.
 The inputs within the test are crafted to match these properties.
 
-Amira
+## Amira
 
-TODO: Group member name
+---
 
-TODO: Test 1
+### Test 1: `ProcessCPUBellSmacking_BasicTest`
 
-TODO: Show a patch (diff) or a link to a commit made in your repository that shows the new test
+**Commit:**  
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/f2c6bf4)
 
-TODO: Provide a screenshot of the old coverage results (the same as you already showed above)
+**Coverage:**  
+- **Old:** 0% (this is my first test)  
+- **New:**  
+  ![New coverage](images/amira_test1.png)
 
-TODO: Provide a screenshot of the new coverage results
+**Improvement:**  
+Code coverage increased from **0% to 24%**. This test covers the CPU's bell-smack behavior during a valid and invalid fruit combination scenario. This contributes to logic branches and exception-safe execution in multi-threaded cases.
 
-TODO: State the coverage improvement with a number and elaborate on why the coverage is improved
+---
 
-Repeat for other tests...
+### Test 2: `ProcessUserBellSmacking_BasicTest`
+
+**Commit:**  
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/4bf9e3f)
+
+**Coverage:**  
+- **Old:**  
+  ![Old coverage](images/amira_test1.png)  
+- **New:**  
+  ![New coverage](images/amira_test2.png)
+
+**Improvement:**  
+Coverage rose from **24% to 48%**. This test includes user bell-smack interaction during gameplay, expanding test coverage to user-triggered input and validating the shared bell state. This reduced untested conditional branches in user-related flow.
+
+---
+
+### Test 3: `Playgame_BasicTest`
+
+**Commit:**  
+[View on GitHub](https://github.com/Cvndas/HaliGaliJava/commit/494a60a)
+
+**Coverage:**  
+- **Old:**  
+  ![Old coverage](images/amira_test2.png)  
+- **New:**  
+  ![New coverage](images/amira_test3.png)
+
+**Improvement:**  
+Coverage increased from **48% to 76%**. This test drives a full simulated game round and covers combined CPU and user actions. It triggered logic previously unreachable by isolated function tests, such as game-over state evaluation and participant list updates.
+
+---
+
 
 Sıla
 
