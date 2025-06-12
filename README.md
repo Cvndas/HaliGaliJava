@@ -68,7 +68,7 @@ This test helped increase the coverage of InitializeGame() by about 57% because 
 
 ### Thadeus
 
-Test 1:
+Test 1: AreFiveFruitsPresent_NullCardAndFourFruits_False()
 https://github.com/Cvndas/HaliGaliJava/commit/72dba3295b935f31c7992ba60c3e952aac724002
 
 Old coverage results
@@ -86,7 +86,7 @@ function.
 
 
 
-Test 2:
+Test 2: AreFiveFruitsPresent_FiveFruits_True()
 Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
 Old coverage results:
@@ -100,7 +100,7 @@ of fruit types, hitting more lines within the switch statement.
 
 
 
-Test 3
+Test 3: ProgressTurnIndex_Tests()
 
 Link to commit: https://github.com/Cvndas/HaliGaliJava/commit/a3528202f793cfa1cba3fbdb76c0c2e6761b74a9
 
@@ -198,7 +198,7 @@ Link to github repository: https://github.com/Cvndas/HaliGaliJava
 | Member | Three functions (names with links to the code on the repository) created                                                                                                                                                        | Initial test (name)            | Other tests (names)                                                                          |
 | --- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|----------------------------------------------------------------------------------------------|
 | Nada | GrabAllTableCards(), KickOutDeadParticipants(), ResetGame() https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L197C2-L231C3 https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L484C1-L496C1 | GrabAllTableCards_BasicTest    | ResetGame_BasicTest, InitializeGame_BasicTest                                                |
-| Thadeus | InitializeGame(), GiveParticipantsInitialCards(),  ProgressTurnIndex(), and various other functions from the start of the project.      https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java                                                                                        | AreFiveFruitsPresent_NoParticipants_False() | AreFiveFruitsPresent_FiveFruits_True(), AreFiveFruitsPresent_NullCardAndFourFruits_False(),  ProgressTurnIndex_TwoDeadParticipants_2()|
+| Thadeus | InitializeGame(), GiveParticipantsInitialCards(),  ProgressTurnIndex(), and various other functions from the start of the project.      https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java                                                                                        | AreFiveFruitsPresent_NoParticipants_False() | AreFiveFruitsPresent_FiveFruits_True(), AreFiveFruitsPresent_NullCardAndFourFruits_False() - This replaces my initial test - ,  ProgressTurnIndex_TwoDeadParticipants_2()|
 | Amira |[Main.java – ProcessUserBellSmacking, ProcessCPUBellSmacking & HandleCorrectBellSmack](https://github.com/Cvndas/HaliGaliJava/blob/main/src/main/java/Main.java#L490-L562)() |  ProcessCPUBellSmacking_BasicTest ()                              |                                                                                              |
 | Sıla |                                                                                                                                                                                                                                 |                                |                                                                                              |
 
